@@ -335,6 +335,35 @@ MobilityTraceCallback (std::ostream *os, std::string context, Ptr<const Mobility
         << pos.x << "\t" << pos.y << "\t" << pos.z << std::endl;
 }
 
+/**
+ * \brief Função para registrar posições de todos os UEs periodicamente
+ * Garante dados contínuos para animação independente do modelo de mobilidade
+ */
+void
+PeriodicMobilityTrace (std::ostream *os, NodeContainer ueNodes, double interval, double endTime)
+{
+    double currentTime = Simulator::Now ().GetSeconds ();
+
+    for (uint32_t i = 0; i < ueNodes.GetN (); ++i)
+    {
+        Ptr<Node> node = ueNodes.Get (i);
+        Ptr<MobilityModel> mobility = node->GetObject<MobilityModel> ();
+        if (mobility)
+        {
+            Vector pos = mobility->GetPosition ();
+            *os << currentTime << "\t"
+                << node->GetId () << "\t"
+                << pos.x << "\t" << pos.y << "\t" << pos.z << std::endl;
+        }
+    }
+
+    // Agenda próxima execução se ainda houver tempo
+    if (currentTime + interval < endTime)
+    {
+        Simulator::Schedule (Seconds (interval), &PeriodicMobilityTrace, os, ueNodes, interval, endTime);
+    }
+}
+
 // --- Funções de Log (do scenario-three.cc) ---
 std::ofstream outFile;
 void
@@ -439,7 +468,7 @@ PrintGnuplottableEnbListToFile (std::string filename)
 static ns3::GlobalValue g_simTime ("simTime", "Simulation time in seconds", ns3::DoubleValue (10.0), ns3::MakeDoubleChecker<double> (0.1, 1000.0));
 static ns3::GlobalValue g_ues ("ues", "Number of UEs for each mmWave ENB.", ns3::UintegerValue (9), ns3::MakeUintegerChecker<uint8_t> ()); // Ajustado para corresponder ao seu log
 static ns3::GlobalValue g_indicationPeriodicity ("indicationPeriodicity", "E2 Indication Periodicity reports (value in seconds)", ns3::DoubleValue (0.1), ns3::MakeDoubleChecker<double> (0.01, 2.0));
-static ns3::GlobalValue g_configuration ("configuration", "Set the wanted configuration to emulate [0,2]", ns3::UintegerValue (0), ns3::MakeUintegerChecker<uint8_t> ()); // Ajustado para corresponder ao seu log
+static ns3::GlobalValue g_configuration ("configuration", "Set the wanted configuration to emulate [0=LTE 850MHz, 1=5G FR1 3.5GHz, 2=5G FR2 28GHz]", ns3::UintegerValue (1), ns3::MakeUintegerChecker<uint8_t> ()); // O-RAN 5G FR1 por padrão
 static ns3::GlobalValue g_trafficModel ("trafficModel", "Type of the traffic model [0,3]", ns3::UintegerValue (3), ns3::MakeUintegerChecker<uint8_t> ()); // Ajustado para corresponder ao seu log
 static ns3::GlobalValue q_useSemaphores ("useSemaphores", "If true, enables the use of semaphores for external environment control", ns3::BooleanValue (false), ns3::MakeBooleanChecker ()); // Ajustado para corresponder ao seu log de erro
 static ns3::GlobalValue g_controlFileName ("controlFileName", "The path to the control file for hierarchical actions", ns3::StringValue (""), ns3::MakeStringChecker ()); // Definido para o esperado
@@ -629,10 +658,13 @@ main (int argc, char *argv[])
             numAntennasMcUe = 1; numAntennasMmWave = 1;
             dataRate = (dataRateFromConf == 0 ? "1.5Mbps" : "4.5Mbps");
             break;
-        case 1:
-            centerFrequency = 3.5e9; bandwidth = 20e6; isd = 1000;
-            numAntennasMcUe = 1; numAntennasMmWave = 1;
-            dataRate = (dataRateFromConf == 0 ? "1.5Mbps" : "4.5Mbps");
+        case 1: // O-RAN 5G NR FR1 (n78 band) - Urban Macro
+            centerFrequency = 3.5e9;    // 3.5 GHz (n78 band, O-RAN typical)
+            bandwidth = 100e6;          // 100 MHz (5G NR FR1 max)
+            isd = 500;                  // 500m ISD (O-RAN urban macro typical)
+            numAntennasMcUe = 4;        // 4 antennas UE (5G typical)
+            numAntennasMmWave = 32;     // 32 antennas gNB (Massive MIMO)
+            dataRate = (dataRateFromConf == 0 ? "50Mbps" : "150Mbps"); // 5G typical rates
             break;
         case 2:
             centerFrequency = 28e9; bandwidth = 100e6; isd = 200;
@@ -841,9 +873,16 @@ main (int argc, char *argv[])
     // --- Configura Trace de Mobilidade ---
     mobilityTraceFile.open ("mobility-trace.txt", std::ios_base::out | std::ios_base::trunc);
     mobilityTraceFile << "#Time\tNodeID\tX\tY\tZ" << std::endl;
+
+    // Conecta callback para mudanças de curso (mantido para compatibilidade)
     Config::Connect ("/NodeList/*/$ns3::MobilityModel/CourseChange",
                      MakeBoundCallback (&MobilityTraceCallback, &mobilityTraceFile));
-    NS_LOG_INFO ("Mobility trace configurado: mobility-trace.txt");
+
+    // Agenda trace periódico para garantir dados contínuos de animação
+    // Intervalo de 0.5s é bom para animação suave sem arquivo muito grande
+    double traceInterval = 0.5; // segundos
+    Simulator::Schedule (Seconds (0.0), &PeriodicMobilityTrace, &mobilityTraceFile, ueNodes, traceInterval, simTime);
+    NS_LOG_INFO ("Mobility trace configurado: mobility-trace.txt (intervalo: " << traceInterval << "s)");
 
     // Instala NetDevices LTE, mmWave e MC (Multi-Connectivity)
     NetDeviceContainer lteEnbDevs = mmwaveHelper->InstallLteEnbDevice (lteEnbNodes);

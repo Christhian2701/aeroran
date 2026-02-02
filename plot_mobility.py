@@ -68,7 +68,7 @@ def plot_trajectories(file_path):
                 marker='s', color='red', markersize=4, alpha=0.8)
 
     # Estilização
-    plt.title('Mobilidade NS-3: Cenário Shanghai (63 UEs)', fontsize=16)
+    plt.title(f'Mobilidade NS-3: Cenário Shanghai ({len(unique_nodes)} UEs)', fontsize=16)
     plt.xlabel('Posição X (metros)', fontsize=12)
     plt.ylabel('Posição Y (metros)', fontsize=12)
     plt.grid(True, linestyle='--', alpha=0.5)
@@ -85,4 +85,7 @@ def plot_trajectories(file_path):
     plt.show()
 
 if __name__ == "__main__":
-    plot_trajectories('shanghai-63-ues-mobility.txt') 
+    import sys
+    # Usa arquivo passado como argumento ou mobility-trace.txt por padrão
+    file_path = sys.argv[1] if len(sys.argv) > 1 else 'mobility-trace.txt'
+    plot_trajectories(file_path) 
