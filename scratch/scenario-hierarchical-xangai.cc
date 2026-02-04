@@ -1,5 +1,6 @@
-/* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
-/* *
+/*
+ * -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*-
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation;
@@ -13,22 +14,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Authors: Combined work from scenario-one and scenario-three.
- * Original Authors: Andrea Lacava, Michele Polese, Matteo Bordin
+ * Authors: This scenario was extended by an undergraduate research student from
+ *          UFPA (Federal University of Pará) as part of Kleber Vilhena's Master's project.
+ *          Base implementation by Andrea Lacava, Michele Polese, Matteo Bordin.
  */
 
 /**
- * @file scenario-hierarchical.cc
- * @brief This scenario combines the functionalities of Traffic Steering (TS) and Energy Saving (ES).
- * It is designed to be controlled by a hierarchical RL agent.
+ * @file scenario-hierarchical-xangai.cc
+ * @brief This scenario integrates Traffic Steering (TS) and Energy Saving (ES) mechanisms,
+ * enhanced with Shanghai mobility modeling, and is controlled by a hierarchical RL agent.
+ *
+ * The code was developed by a scientific initiation student from UFPA (Federal University of Pará),
+ * working under Kleber Vilhena's Master's project. It builds upon the original documentation
+ * by adding specific implementations for handover and energy-saving scenarios with Shanghai mobility.
  *
  * Key features:
- * 1.  Accepts control actions for both forced handovers (TS) and cell ON/OFF state (ES)
- * through a single control file. The ns-3 device is expected to parse actions based on the header.
- * 2.  Generates all necessary KPIs for both TS (per-UE SINR, throughput) and ES (aggregated metrics).
- * 3.  Includes the BsStateTrace function to log the ON/OFF state of cells to a separate file (bsState.txt),
- * which is crucial for the ES agent's observation.
- * 4.  Combines all configurable parameters from both original scenarios.
+ * 1. Accepts control actions for forced handovers (TS) and cell ON/OFF state (ES) through a single
+ *    control file, parsed by the ns-3 device according to the action header.
+ * 2. Generates all required KPIs for TS (per-UE SINR, throughput) and ES (aggregated metrics).
+ * 3. Implements the BsStateTrace function, which logs the ON/OFF state of cells to bsState.txt,
+ *    essential for the ES agent's state observation.
+ * 4. Incorporates Shanghai mobility patterns for realistic user movement simulation.
+ * 5. Merges all configurable parameters from both original TS and ES scenarios.
  */
 
 #include "ns3/core-module.h"
