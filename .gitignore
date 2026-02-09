@@ -42,3 +42,6 @@ xcode/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Python virtual environment
+.venv/
