@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Script para visualizar posições de UEs e eNBs/gNBs do cenário hierárquico
+Configurado para O-RAN 5G NR FR1 (3GPP Release 15+)
 """
 
 import matplotlib.pyplot as plt
@@ -9,6 +10,25 @@ from matplotlib.patches import Circle
 import numpy as np
 import re
 import os
+
+# =============================================================================
+# Configuração O-RAN 5G FR1 (3GPP TR 38.901 - Urban Macro)
+# Deve ser consistente com scenario-hierarchical-xangai-UAV.cc (configuration=1)
+# =============================================================================
+# Frequência: 3.5 GHz (banda n78, O-RAN típico)
+# Bandwidth: 100 MHz (5G NR FR1 max)
+FR1_CONFIG = {
+    'center_frequency_ghz': 3.5,       # 3.5 GHz (n78 band)
+    'bandwidth_mhz': 100,               # 100 MHz
+    'isd': 500,                         # Inter-Site Distance: 500m (O-RAN urban macro)
+    'center_x': 2000,                   # Centro do cenário X
+    'center_y': 2000,                   # Centro do cenário Y
+    'area_radius': 750,                 # ISD * 1.5 = 750m (área de mobilidade UEs)
+    'uav_coverage_radius': 250,         # ISD / 2 = 250m (raio cobertura UAV FR1)
+    'lte_coverage_radius': 500,         # Raio cobertura LTE macro (âncora)
+    'uav_altitude': 100,                # Altitude UAV em metros
+}
+# =============================================================================
 
 def parse_gnuplot_file(filename):
     """Parse arquivo gnuplot e extrai posições"""
@@ -106,11 +126,11 @@ def generate_shanghai_trajectories_from_initial(filename, sim_time=30.0):
     uav_count = sum(1 for (t, _) in initial_positions.keys() if t == 'UAV')
     print(f"Encontrados {ue_count} UEs e {uav_count} UAVs")
 
-    # Parâmetros do cenário O-RAN 5G FR1
-    # ISD = 500m para 5G FR1 3.5 GHz (O-RAN urban macro)
-    isd = 500
-    center_x, center_y = 2000, 2000
-    area_radius = isd * 1.5  # 750m
+    # Parâmetros do cenário O-RAN 5G FR1 (usando configuração global)
+    isd = FR1_CONFIG['isd']
+    center_x = FR1_CONFIG['center_x']
+    center_y = FR1_CONFIG['center_y']
+    area_radius = FR1_CONFIG['area_radius']
 
     # Gera trajetórias para cada UE baseado no padrão (node_id % 6)
     num_waypoints = int(sim_time / 0.4) + 1
@@ -143,105 +163,164 @@ def generate_shanghai_trajectories_from_initial(filename, sim_time=30.0):
                 waypoints.append((t, x, y, z))
 
         elif node_type == 'UE':
+            # =================================================================
+            # Shanghai VUR Dataset-based mobility patterns (matching C++ impl)
+            # Average speed: 15 km/h (4.2 m/s), Max: 43 km/h (12 m/s)
+            # =================================================================
             pattern = node_id % 6
 
-            if pattern == 0:  # Highway - movimento reto
-                speed = 12.5  # m/s (~45 km/h)
-                for i in range(num_waypoints):
-                    t = i * 0.4
-                    if t > sim_time:
-                        break
-                    x = base_x + i * speed * 0.4
-                    y = base_y
-                    # Wrap around
-                    if x > center_x + area_radius:
-                        x = center_x - area_radius + ((x - center_x - area_radius) % (2.0 * area_radius))
-                    waypoints.append((t, x, y, base_z))
-
-            elif pattern == 1:  # Urban turn - curva
-                speed = 7.5
-                half = num_waypoints // 2
-                for i in range(half):
-                    t = i * 0.4
-                    if t > sim_time:
-                        break
-                    x = base_x + i * speed * 0.4
-                    y = base_y
-                    if x > center_x + area_radius:
-                        x = center_x + area_radius - 10
-                    waypoints.append((t, x, y, base_z))
-                last_x = waypoints[-1][1] if waypoints else base_x
-                for i in range(1, half):
-                    t = half * 0.4 + i * 0.4
-                    if t > sim_time:
-                        break
-                    x = last_x
-                    y = base_y + i * speed * 0.4 * 0.8
-                    if y > center_y + area_radius:
-                        y = center_y + area_radius - 10
-                    waypoints.append((t, x, y, base_z))
-
-            elif pattern == 2:  # Intersection - cruzamento perpendicular
-                speed = 10.0
-                for i in range(num_waypoints):
-                    t = i * 0.3
-                    if t > sim_time:
-                        break
-                    x = base_x + 50.0
-                    y = base_y + i * speed * 0.3
-                    if y > center_y + area_radius:
-                        y = center_y - area_radius + ((y - center_y - area_radius) % (2.0 * area_radius))
-                    waypoints.append((t, x, y, base_z))
-
-            elif pattern == 3:  # Roundabout - circular
-                radius = 50.0 + (node_id % 5) * 20.0
-                angular_speed = 2.0 * math.pi / (num_waypoints * 0.25)
-                for i in range(num_waypoints):
-                    t = i * 0.25
-                    if t > sim_time:
-                        break
-                    angle = angular_speed * i
-                    x = base_x + radius * math.cos(angle)
-                    y = base_y + radius * math.sin(angle)
-                    x = max(center_x - area_radius + 10, min(x, center_x + area_radius - 10))
-                    y = max(center_y - area_radius + 10, min(y, center_y + area_radius - 10))
-                    waypoints.append((t, x, y, base_z))
-
-            elif pattern == 4:  # Stop-and-go - semáforo
-                current_x = base_x
+            if pattern == 0:  # Urban main road (~20 km/h with stops)
+                base_speed = 5.5  # m/s (~20 km/h) - Shanghai P75
+                current_x, current_y = base_x, base_y
                 current_time = 0.0
-                segment = 0
-                while current_time < sim_time and segment < 20:
-                    # Move phase
+                while current_time < sim_time:
+                    speed = base_speed + math.sin(current_time * 0.5 + node_id) * 1.5
+                    # Move for 3-5 seconds
+                    for _ in range(8 + (node_id % 5)):
+                        if current_time >= sim_time:
+                            break
+                        current_time += 0.4
+                        current_x += speed * 0.4
+                        if current_x > center_x + area_radius:
+                            current_x = center_x - area_radius + 50
+                        waypoints.append((current_time, current_x, current_y, base_z))
+                    # Stop at traffic light (2-4 seconds)
+                    for _ in range(5 + (node_id % 5)):
+                        if current_time >= sim_time:
+                            break
+                        current_time += 0.4
+                        waypoints.append((current_time, current_x, current_y, base_z))
+
+            elif pattern == 1:  # Urban slow with turns (~15 km/h)
+                speed = 4.2  # m/s (~15 km/h) - Shanghai average
+                current_x, current_y = base_x, base_y
+                current_time = 0.0
+                direction = 0
+                while current_time < sim_time:
+                    # Move in current direction
+                    for _ in range(20 + (node_id % 10)):
+                        if current_time >= sim_time:
+                            break
+                        current_time += 0.5
+                        if direction == 0: current_x += speed * 0.5
+                        elif direction == 1: current_y += speed * 0.5
+                        elif direction == 2: current_x -= speed * 0.5
+                        else: current_y -= speed * 0.5
+                        current_x = max(center_x - area_radius + 20, min(current_x, center_x + area_radius - 20))
+                        current_y = max(center_y - area_radius + 20, min(current_y, center_y + area_radius - 20))
+                        waypoints.append((current_time, current_x, current_y, base_z))
+                    # Stop at intersection
+                    for _ in range(6 + (node_id % 6)):
+                        if current_time >= sim_time:
+                            break
+                        current_time += 0.5
+                        waypoints.append((current_time, current_x, current_y, base_z))
+                    direction = (direction + 1 + (node_id % 2)) % 4
+
+            elif pattern == 2:  # Intersection crossing (~11 km/h)
+                speed = 3.0  # Very slow at intersections
+                current_x, current_y = base_x, base_y
+                current_time = 0.0
+                while current_time < sim_time:
+                    # Approach slowly
+                    for _ in range(15):
+                        if current_time >= sim_time:
+                            break
+                        current_time += 0.4
+                        current_y += speed * 0.4
+                        if current_y > center_y + area_radius:
+                            current_y = center_y - area_radius + 50
+                        waypoints.append((current_time, current_x, current_y, base_z))
+                    # Wait at intersection
+                    for _ in range(12 + (node_id % 12)):
+                        if current_time >= sim_time:
+                            break
+                        current_time += 0.4
+                        waypoints.append((current_time, current_x, current_y, base_z))
+                    # Cross faster
                     for _ in range(8):
                         if current_time >= sim_time:
                             break
-                        current_time += 0.3
-                        current_x += 2.5
-                        if current_x > center_x + area_radius:
-                            current_x = center_x - area_radius + 50
-                        waypoints.append((current_time, current_x, base_y, base_z))
-                    # Stop phase
-                    for _ in range(6):
+                        current_time += 0.4
+                        current_y += 5.0 * 0.4
+                        waypoints.append((current_time, current_x, current_y, base_z))
+
+            elif pattern == 3:  # Roundabout (~12.6 km/h)
+                radius = 30.0 + (node_id % 4) * 15.0
+                speed = 3.5  # m/s
+                angular_speed = speed / radius
+                current_time = 0.0
+                angle = (node_id % 8) * math.pi / 4
+                while current_time < sim_time:
+                    # Enter slowly
+                    for _ in range(5):
                         if current_time >= sim_time:
                             break
-                        current_time += 0.3
-                        waypoints.append((current_time, current_x, base_y, base_z))
-                    segment += 1
+                        current_time += 0.5
+                        waypoints.append((current_time, base_x, base_y, base_z))
+                    # Circle
+                    for _ in range(40):
+                        if current_time >= sim_time:
+                            break
+                        current_time += 0.5
+                        angle += angular_speed * 0.5
+                        x = base_x + radius * math.cos(angle)
+                        y = base_y + radius * math.sin(angle)
+                        x = max(center_x - area_radius + 20, min(x, center_x + area_radius - 20))
+                        y = max(center_y - area_radius + 20, min(y, center_y + area_radius - 20))
+                        waypoints.append((current_time, x, y, base_z))
 
-            elif pattern == 5:  # Diagonal
-                speed = 8.0
-                for i in range(num_waypoints):
-                    t = i * 0.35
-                    if t > sim_time:
-                        break
-                    x = base_x + i * speed * 0.35 * 0.8
-                    y = base_y + i * speed * 0.35 * 0.6
-                    if x > center_x + area_radius:
-                        x = center_x - area_radius + ((x - center_x - area_radius) % (2.0 * area_radius))
-                    if y > center_y + area_radius:
-                        y = center_y - area_radius + ((y - center_y - area_radius) % (2.0 * area_radius))
-                    waypoints.append((t, x, y, base_z))
+            elif pattern == 4:  # Stop-and-go dense traffic (~9 km/h) - Most common
+                current_x, current_y = base_x, base_y
+                current_time = 0.0
+                while current_time < sim_time:
+                    # Short move
+                    for _ in range(4 + (node_id % 4)):
+                        if current_time >= sim_time:
+                            break
+                        current_time += 0.5
+                        current_x += 2.5 * 0.5
+                        current_y += (0.5 if node_id % 2 == 0 else -0.3)
+                        if current_x > center_x + area_radius:
+                            current_x = center_x - area_radius + 50
+                        current_y = max(center_y - area_radius + 20, min(current_y, center_y + area_radius - 20))
+                        waypoints.append((current_time, current_x, current_y, base_z))
+                    # Frequent stops (3-6 seconds)
+                    for _ in range(6 + (node_id % 6)):
+                        if current_time >= sim_time:
+                            break
+                        current_time += 0.5
+                        waypoints.append((current_time, current_x, current_y, base_z))
+
+            elif pattern == 5:  # Diagonal slow (~14 km/h)
+                speed = 4.0  # m/s (~14.4 km/h) - Shanghai typical
+                current_x, current_y = base_x, base_y
+                current_time = 0.0
+                angle_rad = (0.5 + (node_id % 4) * 0.25) * math.pi / 4
+                while current_time < sim_time:
+                    # Move diagonally
+                    for _ in range(15):
+                        if current_time >= sim_time:
+                            break
+                        current_time += 0.4
+                        current_x += speed * 0.4 * math.cos(angle_rad)
+                        current_y += speed * 0.4 * math.sin(angle_rad)
+                        if current_x > center_x + area_radius:
+                            current_x = center_x - area_radius + 50
+                        if current_y > center_y + area_radius:
+                            current_y = center_y - area_radius + 50
+                        if current_x < center_x - area_radius:
+                            current_x = center_x + area_radius - 50
+                        if current_y < center_y - area_radius:
+                            current_y = center_y + area_radius - 50
+                        waypoints.append((current_time, current_x, current_y, base_z))
+                    # Stop periodically
+                    for _ in range(4 + (node_id % 5)):
+                        if current_time >= sim_time:
+                            break
+                        current_time += 0.4
+                        waypoints.append((current_time, current_x, current_y, base_z))
+                    angle_rad += (0.3 if node_id % 2 == 0 else -0.3)
 
         if waypoints:
             key = f"{node_type}_{node_id}"
@@ -541,8 +620,9 @@ def plot_dynamic_animation(speed=1.0, save_gif=False, tcl_file=None):
                        xytext=(10, 10), textcoords='offset points', color='darkred',
                        bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.8))
             # Círculo de cobertura macro
-            circle = Circle((pos[1], pos[2]), 500, fill=False, color='red',
-                           alpha=0.4, linestyle='--', linewidth=2)
+            # Círculo de cobertura LTE macro (âncora para handover)
+            circle = Circle((pos[1], pos[2]), FR1_CONFIG['lte_coverage_radius'],
+                           fill=False, color='red', alpha=0.4, linestyle='--', linewidth=2)
             ax.add_patch(circle)
 
     # Cores para UEs (verde/azul)
@@ -564,7 +644,9 @@ def plot_dynamic_animation(speed=1.0, save_gif=False, tcl_file=None):
     # Círculos de cobertura dos UAVs (serão atualizados)
     uav_coverage_circles = []
     for _ in uav_traces:
-        circle = Circle((0, 0), 120, fill=True, color='orange', alpha=0.15,
+        # Círculo de cobertura UAV FR1 (ISD/2 = 250m para 3.5 GHz)
+        circle = Circle((0, 0), FR1_CONFIG['uav_coverage_radius'],
+                        fill=True, color='orange', alpha=0.15,
                         edgecolor='darkorange', linestyle='-', linewidth=1)
         ax.add_patch(circle)
         uav_coverage_circles.append(circle)

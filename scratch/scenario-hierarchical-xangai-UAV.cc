@@ -173,119 +173,230 @@ private:
         if (numWaypoints < 10) numWaypoints = 10;
         if (numWaypoints > 500) numWaypoints = 500;
 
+        // =================================================================
+        // Shanghai VUR Dataset-based mobility patterns
+        // Based on real trajectory data analysis:
+        //   - Average speed: 15 km/h (4.2 m/s)
+        //   - Median speed: 15.8 km/h (4.4 m/s)
+        //   - Max speed: 43 km/h (12 m/s)
+        //   - 75% of vehicles below 20 km/h
+        // =================================================================
         switch (pattern)
         {
-        case 0: // Straight highway movement
+        case 0: // Urban main road (based on Shanghai dataset P75)
             {
-                double speed = 12.5; // m/s (~45 km/h)
-                for (int i = 0; i < numWaypoints; ++i)
-                {
-                    double time = i * 0.4;
-                    if (time > simTime) break;
-                    double x = baseX + i * speed * 0.4;
-                    double y = baseY;
-                    // Wrap around if exceeds area
-                    if (x > centerX + areaRadius) x = centerX - areaRadius + std::fmod (x - centerX - areaRadius, 2.0 * areaRadius);
-                    waypoints.emplace_back (time, x, y);
-                }
-                break;
-            }
-        case 1: // Urban turning movement
-            {
-                double speed = 7.5; // m/s (~27 km/h)
-                int halfWaypoints = numWaypoints / 2;
-                // Move forward
-                for (int i = 0; i < halfWaypoints; ++i)
-                {
-                    double time = i * 0.4;
-                    if (time > simTime) break;
-                    double x = baseX + i * speed * 0.4;
-                    double y = baseY;
-                    if (x > centerX + areaRadius) x = centerX + areaRadius - 10;
-                    waypoints.emplace_back (time, x, y);
-                }
-                // Turn right
-                for (int i = 1; i < halfWaypoints; ++i)
-                {
-                    double time = halfWaypoints * 0.4 + i * 0.4;
-                    if (time > simTime) break;
-                    double x = waypoints.back ().x;
-                    double y = baseY + i * speed * 0.4 * 0.8;
-                    if (y > centerY + areaRadius) y = centerY + areaRadius - 10;
-                    waypoints.emplace_back (time, x, y);
-                }
-                break;
-            }
-        case 2: // Intersection crossing (perpendicular movement)
-            {
-                double speed = 10.0; // m/s (~36 km/h)
-                for (int i = 0; i < numWaypoints; ++i)
-                {
-                    double time = i * 0.3;
-                    if (time > simTime) break;
-                    double x = baseX + 50.0; // Fixed X at intersection
-                    double y = baseY + i * speed * 0.3;
-                    if (y > centerY + areaRadius) y = centerY - areaRadius + std::fmod (y - centerY - areaRadius, 2.0 * areaRadius);
-                    waypoints.emplace_back (time, x, y);
-                }
-                break;
-            }
-        case 3: // Circular movement (roundabout)
-            {
-                double radius = 50.0 + (ueId % 5) * 20.0; // Varying radius
-                double angularSpeed = 2.0 * M_PI / (numWaypoints * 0.25); // Complete circle
-                for (int i = 0; i < numWaypoints; ++i)
-                {
-                    double time = i * 0.25;
-                    if (time > simTime) break;
-                    double angle = angularSpeed * i;
-                    double x = baseX + radius * std::cos (angle);
-                    double y = baseY + radius * std::sin (angle);
-                    // Clamp to area bounds
-                    x = std::max (centerX - areaRadius + 10, std::min (x, centerX + areaRadius - 10));
-                    y = std::max (centerY - areaRadius + 10, std::min (y, centerY + areaRadius - 10));
-                    waypoints.emplace_back (time, x, y);
-                }
-                break;
-            }
-        case 4: // Stop-and-go traffic (traffic lights)
-            {
+                // Speed: 5.5 m/s (~20 km/h) - Shanghai P75 percentile
+                double baseSpeed = 5.5;
                 double currentX = baseX;
+                double currentY = baseY;
                 double currentTime = 0.0;
-                int segment = 0;
-                while (currentTime < simTime && segment < 20)
+
+                while (currentTime < simTime)
                 {
-                    // Move phase
+                    // Variable speed (15-25 km/h range)
+                    double speed = baseSpeed + (std::sin(currentTime * 0.5 + ueId) * 1.5);
+
+                    // Move for 3-5 seconds
+                    int moveSteps = 8 + (ueId % 5);
+                    for (int i = 0; i < moveSteps && currentTime < simTime; ++i)
+                    {
+                        currentTime += 0.4;
+                        currentX += speed * 0.4;
+                        if (currentX > centerX + areaRadius)
+                            currentX = centerX - areaRadius + 50;
+                        waypoints.emplace_back (currentTime, currentX, currentY);
+                    }
+
+                    // Stop at traffic light (2-4 seconds)
+                    int stopSteps = 5 + (ueId % 5);
+                    for (int i = 0; i < stopSteps && currentTime < simTime; ++i)
+                    {
+                        currentTime += 0.4;
+                        waypoints.emplace_back (currentTime, currentX, currentY);
+                    }
+                }
+                break;
+            }
+        case 1: // Urban slow with turns (Shanghai average ~15 km/h)
+            {
+                double speed = 4.2; // m/s (~15 km/h) - Shanghai average
+                double currentX = baseX;
+                double currentY = baseY;
+                double currentTime = 0.0;
+                int direction = 0; // 0=right, 1=up, 2=left, 3=down
+
+                while (currentTime < simTime)
+                {
+                    // Move in current direction for ~100m
+                    int steps = 20 + (ueId % 10);
+                    for (int i = 0; i < steps && currentTime < simTime; ++i)
+                    {
+                        currentTime += 0.5;
+                        switch (direction)
+                        {
+                            case 0: currentX += speed * 0.5; break;
+                            case 1: currentY += speed * 0.5; break;
+                            case 2: currentX -= speed * 0.5; break;
+                            case 3: currentY -= speed * 0.5; break;
+                        }
+                        // Clamp to area
+                        currentX = std::max(centerX - areaRadius + 20, std::min(currentX, centerX + areaRadius - 20));
+                        currentY = std::max(centerY - areaRadius + 20, std::min(currentY, centerY + areaRadius - 20));
+                        waypoints.emplace_back (currentTime, currentX, currentY);
+                    }
+
+                    // Stop at intersection (3-6 seconds)
+                    int stopSteps = 6 + (ueId % 6);
+                    for (int i = 0; i < stopSteps && currentTime < simTime; ++i)
+                    {
+                        currentTime += 0.5;
+                        waypoints.emplace_back (currentTime, currentX, currentY);
+                    }
+
+                    // Turn (change direction)
+                    direction = (direction + 1 + (ueId % 2)) % 4;
+                }
+                break;
+            }
+        case 2: // Intersection crossing - slow approach (Shanghai intersection data)
+            {
+                // Very slow at intersections: 3 m/s (~11 km/h)
+                double speed = 3.0;
+                double currentX = baseX;
+                double currentY = baseY;
+                double currentTime = 0.0;
+
+                while (currentTime < simTime)
+                {
+                    // Approach intersection slowly
+                    for (int i = 0; i < 15 && currentTime < simTime; ++i)
+                    {
+                        currentTime += 0.4;
+                        currentY += speed * 0.4;
+                        if (currentY > centerY + areaRadius)
+                            currentY = centerY - areaRadius + 50;
+                        waypoints.emplace_back (currentTime, currentX, currentY);
+                    }
+
+                    // Wait at intersection (5-10 seconds)
+                    int waitSteps = 12 + (ueId % 12);
+                    for (int i = 0; i < waitSteps && currentTime < simTime; ++i)
+                    {
+                        currentTime += 0.4;
+                        waypoints.emplace_back (currentTime, currentX, currentY);
+                    }
+
+                    // Cross intersection faster
                     for (int i = 0; i < 8 && currentTime < simTime; ++i)
                     {
-                        currentTime += 0.3;
-                        currentX += 2.5;
-                        if (currentX > centerX + areaRadius) currentX = centerX - areaRadius + 50;
-                        waypoints.emplace_back (currentTime, currentX, baseY);
+                        currentTime += 0.4;
+                        currentY += 5.0 * 0.4; // Faster crossing
+                        waypoints.emplace_back (currentTime, currentX, currentY);
                     }
-                    // Stop phase (at traffic light)
-                    for (int i = 0; i < 6 && currentTime < simTime; ++i)
-                    {
-                        currentTime += 0.3;
-                        waypoints.emplace_back (currentTime, currentX, baseY);
-                    }
-                    segment++;
                 }
                 break;
             }
-        case 5: // Diagonal movement
+        case 3: // Roundabout/curve movement (slow circular)
             {
-                double speed = 8.0; // m/s
-                for (int i = 0; i < numWaypoints; ++i)
+                // Slow roundabout: 3.5 m/s (~12.6 km/h)
+                double radius = 30.0 + (ueId % 4) * 15.0;
+                double speed = 3.5;
+                double angularSpeed = speed / radius;
+                double currentTime = 0.0;
+                double angle = (ueId % 8) * M_PI / 4; // Different starting angles
+
+                while (currentTime < simTime)
                 {
-                    double time = i * 0.35;
-                    if (time > simTime) break;
-                    double x = baseX + i * speed * 0.35 * 0.8;
-                    double y = baseY + i * speed * 0.35 * 0.6;
-                    // Wrap around
-                    if (x > centerX + areaRadius) x = centerX - areaRadius + std::fmod (x - centerX - areaRadius, 2.0 * areaRadius);
-                    if (y > centerY + areaRadius) y = centerY - areaRadius + std::fmod (y - centerY - areaRadius, 2.0 * areaRadius);
-                    waypoints.emplace_back (time, x, y);
+                    // Enter roundabout slowly
+                    for (int i = 0; i < 5 && currentTime < simTime; ++i)
+                    {
+                        currentTime += 0.5;
+                        waypoints.emplace_back(currentTime, baseX, baseY);
+                    }
+
+                    // Circle in roundabout
+                    for (int i = 0; i < 40 && currentTime < simTime; ++i)
+                    {
+                        currentTime += 0.5;
+                        angle += angularSpeed * 0.5;
+                        double x = baseX + radius * std::cos(angle);
+                        double y = baseY + radius * std::sin(angle);
+                        x = std::max(centerX - areaRadius + 20, std::min(x, centerX + areaRadius - 20));
+                        y = std::max(centerY - areaRadius + 20, std::min(y, centerY + areaRadius - 20));
+                        waypoints.emplace_back(currentTime, x, y);
+                    }
+                }
+                break;
+            }
+        case 4: // Stop-and-go dense traffic (most common in Shanghai - 47% of data)
+            {
+                // Very slow: 2.5 m/s (~9 km/h) with frequent stops
+                double currentX = baseX;
+                double currentY = baseY;
+                double currentTime = 0.0;
+
+                while (currentTime < simTime)
+                {
+                    // Short move (2-3 seconds at ~9 km/h)
+                    int moveSteps = 4 + (ueId % 4);
+                    for (int i = 0; i < moveSteps && currentTime < simTime; ++i)
+                    {
+                        currentTime += 0.5;
+                        currentX += 2.5 * 0.5;
+                        currentY += (ueId % 2 == 0 ? 0.5 : -0.3); // Slight Y drift
+                        if (currentX > centerX + areaRadius) currentX = centerX - areaRadius + 50;
+                        currentY = std::max(centerY - areaRadius + 20, std::min(currentY, centerY + areaRadius - 20));
+                        waypoints.emplace_back(currentTime, currentX, currentY);
+                    }
+
+                    // Frequent stops (3-6 seconds)
+                    int stopSteps = 6 + (ueId % 6);
+                    for (int i = 0; i < stopSteps && currentTime < simTime; ++i)
+                    {
+                        currentTime += 0.5;
+                        waypoints.emplace_back(currentTime, currentX, currentY);
+                    }
+                }
+                break;
+            }
+        case 5: // Diagonal slow movement (typical urban ~15 km/h)
+            {
+                double speed = 4.0; // m/s (~14.4 km/h)
+                double currentX = baseX;
+                double currentY = baseY;
+                double currentTime = 0.0;
+                double angleRad = (0.5 + (ueId % 4) * 0.25) * M_PI / 4; // 22.5-67.5 degrees
+
+                while (currentTime < simTime)
+                {
+                    // Move diagonally
+                    for (int i = 0; i < 15 && currentTime < simTime; ++i)
+                    {
+                        currentTime += 0.4;
+                        currentX += speed * 0.4 * std::cos(angleRad);
+                        currentY += speed * 0.4 * std::sin(angleRad);
+                        // Wrap around
+                        if (currentX > centerX + areaRadius)
+                            currentX = centerX - areaRadius + std::fmod(currentX - centerX - areaRadius, 2.0 * areaRadius);
+                        if (currentY > centerY + areaRadius)
+                            currentY = centerY - areaRadius + std::fmod(currentY - centerY - areaRadius, 2.0 * areaRadius);
+                        if (currentX < centerX - areaRadius)
+                            currentX = centerX + areaRadius - 50;
+                        if (currentY < centerY - areaRadius)
+                            currentY = centerY + areaRadius - 50;
+                        waypoints.emplace_back(currentTime, currentX, currentY);
+                    }
+
+                    // Stop periodically
+                    int stopSteps = 4 + (ueId % 5);
+                    for (int i = 0; i < stopSteps && currentTime < simTime; ++i)
+                    {
+                        currentTime += 0.4;
+                        waypoints.emplace_back(currentTime, currentX, currentY);
+                    }
+
+                    // Change direction slightly
+                    angleRad += (ueId % 2 == 0 ? 0.3 : -0.3);
                 }
                 break;
             }
