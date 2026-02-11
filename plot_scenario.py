@@ -398,33 +398,111 @@ def parse_ns2_mobility_tcl(filename):
     return traces
 
 def plot_static_positions():
-    """Plota posições estáticas de UEs e eNBs"""
-    fig, ax = plt.subplots(figsize=(12, 10))
+    """Plota posições estáticas de UEs e eNBs com círculos de cobertura"""
+    fig, ax = plt.subplots(figsize=(14, 12))
 
-    # Parse UEs
+    # Parse eNBs/gNBs primeiro para calcular o ISD automaticamente
+    enb_labels, enb_positions = parse_gnuplot_file('enbs.txt')
+
+    # Calcula ISD automaticamente baseado nas posições dos gNBs
+    if len(enb_positions) >= 2:
+        # Encontra o centro (assume que é o primeiro ou o mais central)
+        center_x = np.mean([p[0] for p in enb_positions])
+        center_y = np.mean([p[1] for p in enb_positions])
+
+        # Calcula distância média do centro para estimar ISD
+        distances = [np.sqrt((p[0]-center_x)**2 + (p[1]-center_y)**2) for p in enb_positions]
+        distances_nonzero = [d for d in distances if d > 10]  # Ignora o central
+        if distances_nonzero:
+            estimated_isd = np.mean(distances_nonzero)
+        else:
+            estimated_isd = FR1_CONFIG['isd']
+
+        # Raio de cobertura = ISD/2 (padrão 3GPP)
+        uav_coverage_radius = estimated_isd / 2
+        lte_coverage_radius = estimated_isd
+    else:
+        center_x = FR1_CONFIG['center_x']
+        center_y = FR1_CONFIG['center_y']
+        uav_coverage_radius = FR1_CONFIG['uav_coverage_radius']
+        lte_coverage_radius = FR1_CONFIG['lte_coverage_radius']
+        estimated_isd = FR1_CONFIG['isd']
+
+    print(f"ISD estimado: {estimated_isd:.0f}m, Raio cobertura UAV: {uav_coverage_radius:.0f}m")
+
+    # Plota círculos de cobertura dos gNBs/UAVs (ANTES dos pontos para ficar atrás)
+    if enb_positions:
+        for i, (x, y) in enumerate(enb_positions):
+            # Verifica se é o LTE central (geralmente o primeiro ou mais próximo do centro)
+            dist_to_center = np.sqrt((x - center_x)**2 + (y - center_y)**2)
+
+            if dist_to_center < estimated_isd * 0.3:  # É o LTE central
+                # Círculo de cobertura LTE macro (tracejado)
+                circle = Circle((x, y), lte_coverage_radius,
+                               fill=False, color='red', alpha=0.4,
+                               linestyle='--', linewidth=2)
+                ax.add_patch(circle)
+            else:  # É um gNB/UAV mmWave
+                # Círculo de cobertura UAV (preenchido)
+                circle = Circle((x, y), uav_coverage_radius,
+                               fill=True, color='orange', alpha=0.15,
+                               edgecolor='darkorange', linestyle='-', linewidth=1)
+                ax.add_patch(circle)
+
+    # Parse e plota UEs
     ue_labels, ue_positions = parse_gnuplot_file('ues.txt')
     if ue_positions:
         ue_x = [p[0] for p in ue_positions]
         ue_y = [p[1] for p in ue_positions]
-        ax.scatter(ue_x, ue_y, c='green', marker='o', s=50, label=f'UEs ({len(ue_positions)})', alpha=0.7)
+        ax.scatter(ue_x, ue_y, c='green', marker='o', s=60,
+                   label=f'UEs ({len(ue_positions)})', alpha=0.8,
+                   edgecolors='darkgreen', linewidth=0.5, zorder=5)
         for i, label in enumerate(ue_labels):
-            ax.annotate(label, (ue_x[i], ue_y[i]), fontsize=6, alpha=0.7)
+            ax.annotate(label, (ue_x[i], ue_y[i]), fontsize=6, alpha=0.6)
 
-    # Parse eNBs/gNBs
-    enb_labels, enb_positions = parse_gnuplot_file('enbs.txt')
+    # Plota eNBs/gNBs com estilo diferenciado
     if enb_positions:
-        enb_x = [p[0] for p in enb_positions]
-        enb_y = [p[1] for p in enb_positions]
-        ax.scatter(enb_x, enb_y, c='red', marker='^', s=200, label=f'eNBs/gNBs ({len(enb_positions)})')
-        for i, label in enumerate(enb_labels):
-            ax.annotate(label, (enb_x[i], enb_y[i]), fontsize=10, fontweight='bold')
+        for i, (x, y) in enumerate(enb_positions):
+            dist_to_center = np.sqrt((x - center_x)**2 + (y - center_y)**2)
+            label = enb_labels[i] if i < len(enb_labels) else str(i)
 
-    ax.set_xlabel('X (m)')
-    ax.set_ylabel('Y (m)')
-    ax.set_title('Posições Iniciais - Cenário Hierárquico')
-    ax.legend()
+            if dist_to_center < estimated_isd * 0.3:  # LTE central
+                ax.scatter(x, y, c='darkred', marker='^', s=400, zorder=10,
+                          edgecolors='black', linewidth=2)
+                ax.annotate('gNB', (x, y), fontsize=11, fontweight='bold',
+                           xytext=(10, 10), textcoords='offset points', color='darkred',
+                           bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.8))
+            else:  # gNB/UAV mmWave
+                ax.scatter(x, y, c='orange', marker='h', s=200, zorder=8,
+                          edgecolors='darkorange', linewidth=1.5, alpha=0.9)
+                ax.annotate(label, (x, y), fontsize=9, fontweight='bold',
+                           xytext=(5, 5), textcoords='offset points')
+
+    # Legenda customizada
+    from matplotlib.lines import Line2D
+    legend_elements = [
+        Line2D([0], [0], marker='o', color='w', markerfacecolor='green',
+               markersize=10, label=f'UEs ({len(ue_positions) if ue_positions else 0})'),
+        Line2D([0], [0], marker='^', color='w', markerfacecolor='darkred',
+               markersize=12, label='LTE gNB (âncora)'),
+        Line2D([0], [0], marker='h', color='w', markerfacecolor='orange',
+               markersize=12, label=f'UAV gNBs ({len(enb_positions)-1 if enb_positions else 0})'),
+    ]
+    ax.legend(handles=legend_elements, loc='upper right', fontsize=11)
+
+    ax.set_xlabel('X (m)', fontsize=12)
+    ax.set_ylabel('Y (m)', fontsize=12)
+    ax.set_title('Posições Iniciais - Cenário O-RAN com Cobertura', fontsize=14, fontweight='bold')
     ax.grid(True, alpha=0.3)
     ax.set_aspect('equal')
+
+    # Ajusta limites para mostrar toda a área
+    if ue_positions or enb_positions:
+        all_x = [p[0] for p in (ue_positions or [])] + [p[0] for p in (enb_positions or [])]
+        all_y = [p[1] for p in (ue_positions or [])] + [p[1] for p in (enb_positions or [])]
+        margin = max(uav_coverage_radius, lte_coverage_radius) + 100
+        ax.set_xlim(min(all_x) - margin, max(all_x) + margin)
+        ax.set_ylim(min(all_y) - margin, max(all_y) + margin)
 
     plt.tight_layout()
     plt.savefig('scenario_positions.png', dpi=150)

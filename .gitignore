@@ -45,3 +45,6 @@ Thumbs.db
 
 # Python virtual environment
 .venv/
+
+# ns-o-ran-gym
+ns-o-ran-gym/

@@ -1624,7 +1624,7 @@ main (int argc, char *argv[])
             // Usa a função SetupShanghaiMobility com os parâmetros do cenário
             // centerPosition é o centro do layout hexagonal
             // areaRadius é baseado no ISD para cobrir a área das células
-            double areaRadius = isd * 1.5; // Raio suficiente para cobrir as células
+            double areaRadius = isd * 0.9; // Raio ajustado para centralizar UEs na cobertura
 
             SetupShanghaiMobility(ueNodes, centerPosition.x, centerPosition.y, areaRadius, simTime);
 
