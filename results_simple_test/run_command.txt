@@ -1,0 +1,1 @@
+scratch/scenario-simple-test --simTime=1.0 --useSemaphores=0 --scheduleControlMessages=1 --enableSimpleMobility=0 --controlFileName=hierarchical_actions.csv

@@ -162,6 +162,7 @@ class MmWaveEnbNetDevice : public MmWaveNetDevice
     double GetClosestUeTime();
 
     std::map<uint64_t, std::map<uint16_t, long double>> Getl3sinrMap();
+    Time GetAccumulatedActiveTime() const;
 
     /**
      * @brief All the possible energy mode for the cell
@@ -236,6 +237,7 @@ class MmWaveEnbNetDevice : public MmWaveNetDevice
     bool m_sendCuUp;
     bool m_sendCuCp;
     bool m_sendDu;
+    bool IsCellStateActive(enumModeEnergyBs value) const;
 
     static void RegisterNewSinrReadingCallback(Ptr<MmWaveEnbNetDevice> netDev,
                                                std::string context,
@@ -245,6 +247,8 @@ class MmWaveEnbNetDevice : public MmWaveNetDevice
     void RegisterNewSinrReading(uint64_t imsi, uint16_t cellId, long double sinr);
     std::map<uint64_t, std::map<uint16_t, long double>> m_l3sinrMap;
     uint64_t m_startTime;
+    Time m_lastStateChangeTime{Seconds(0)};
+    Time m_totalActiveTime{Seconds(0)};
     std::map<uint64_t, double> m_drbThrDlPdcpBasedComputationUeid;
     std::map<uint64_t, double> m_drbThrDlUeid;
     bool m_isReportingEnabled; //! true is KPM reporting cycle is active, false otherwise

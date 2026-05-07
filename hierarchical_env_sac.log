@@ -1,0 +1,733 @@
+2026-02-19 15:26:55,953 - INFO - hierarchical_env.py:164 - Logging iniciado para HierarchicalEnv (Modo SAC). Heurístico: False
+2026-02-19 15:26:55,953 - INFO - hierarchical_env.py:196 - Action Space ES (Não Heurístico): Discrete(64)
+2026-02-19 15:26:55,953 - INFO - hierarchical_env.py:200 - Action Space TS: MultiDiscrete([8]*63)
+2026-02-19 15:26:55,954 - INFO - hierarchical_env.py:210 - Action Space Original (MultiDiscrete): [64  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8
+  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8
+  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8]
+2026-02-19 15:26:55,954 - INFO - hierarchical_env.py:211 - Action Space Exposto (SAC): Box(-1.0, 1.0, (64,), float32)
+2026-02-19 15:26:55,954 - INFO - hierarchical_env.py:226 - Observation Space: Dict('es_obs': Box(-inf, inf, (69,), float64), 'ts_obs': Box(-inf, inf, (63, 7), float64))
+2026-02-19 15:28:19,540 - DEBUG - hierarchical_env.py:1248 - _fill_datalake_usecase: 14 novas linhas inseridas na tabela bsState.
+2026-02-19 15:28:19,549 - DEBUG - hierarchical_env.py:317 - Procurando latência para timestamp 1771525617187, encontradas 63 linhas
+2026-02-19 15:28:19,549 - DEBUG - hierarchical_env.py:319 - Primeira linha de latência: (1771525617187, 3, 1, 0.0, 0.0, None)
+2026-02-19 15:28:19,549 - INFO - hierarchical_env.py:368 - Loaded latency for 63 UEs | ts=1771525617187
+2026-02-19 15:28:19,550 - DEBUG - hierarchical_env.py:585 - _update_cell_states: Estados das células atualizados para ts=1771525617187: {2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1}
+2026-02-19 15:28:19,633 - INFO - hierarchical_env.py:722 - Latency per-cell(2-8)=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] | GLOBAL_AVG=0.000 us | ts=1771525617187
+2026-02-19 15:28:20,072 - DEBUG - hierarchical_env.py:427 - Ação Contínua (SAC): [ 0.9999732  -0.5702925   0.9993398   0.9999571   0.9995749   0.99987364
+ -0.99987614 -0.9999868  -0.9999418   0.9908321   0.99981785 -0.99998313
+  0.99994195  0.99976945  0.999717   -0.99999774  0.9999697   0.9999304
+ -0.99944824 -0.999598   -0.9999916   0.9999461  -0.9999881  -0.99999565
+ -0.999914    0.99993706 -0.99998343  0.99986315  0.99974585  0.99967587
+ -0.99997765  0.9999776  -0.9998671  -0.99997455  0.999918    0.8504573
+  0.99985886  0.99981654  0.99878395 -0.99991554 -0.99946195 -0.99990535
+ -0.9999216  -0.9996194   0.9999838   0.99993837 -0.9990862  -0.9997807
+  0.99999046 -0.9999755   0.997903    0.99999034 -0.9997543   0.9999845
+  0.9999217  -0.99881214 -0.99999076 -0.99997544 -0.99946856 -0.99984676
+  0.99997544 -0.21737027  0.9999883  -0.9999888 ]
+2026-02-19 15:28:20,073 - DEBUG - hierarchical_env.py:428 - Ação Decodificada (Discreta): [63  1  7  7  7  7  0  0  0  7  7  0  7  7  7  0  7  7  0  0  0  7  0  0
+  0  7  0  7  7  7  0  7  0  0  7  7  7  7  7  0  0  0  0  0  7  7  0  0
+  7  0  7  7  0  7  7  0  0  0  0  0  7  3  7  0]
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 2 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 3 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 4 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 5 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 9 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 10 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 12 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 13 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 14 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 16 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 17 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 21 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 25 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 27 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 28 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 29 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 31 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 34 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 35 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 36 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 37 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 38 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 44 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 45 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 48 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 50 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 51 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 53 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 54 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 60 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 62 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:28:20,073 - DEBUG - hierarchical_env.py:518 - Ação Achatada (Decodificada): [63  1  7  7  7  7  0  0  0  7  7  0  7  7  7  0  7  7  0  0  0  7  0  0
+  0  7  0  7  7  7  0  7  0  0  7  7  7  7  7  0  0  0  0  0  7  7  0  0
+  7  0  7  7  0  7  7  0  0  0  0  0  7  3  7  0]
+2026-02-19 15:28:20,073 - DEBUG - hierarchical_env.py:519 - Ação Hierárquica Enviada: [(0, 2, 1), (0, 3, 1), (0, 4, 1), (0, 5, 1), (0, 6, 0), (0, 7, 0), (0, 8, 0), (1, 1, 2), (1, 61, 4)]
+2026-02-19 15:28:20,073 - DEBUG - hierarchical_env.py:520 - Previous Inverted Action (para ZERO_COUNT): 0000111
+2026-02-19 15:30:03,632 - WARNING - hierarchical_env.py:1210 - Linha ignorada em bsState.txt (formato inesperado): ['525617192', '8', '1']
+2026-02-19 15:30:03,643 - DEBUG - hierarchical_env.py:1248 - _fill_datalake_usecase: 14 novas linhas inseridas na tabela bsState.
+2026-02-19 15:30:03,645 - DEBUG - hierarchical_env.py:317 - Procurando latência para timestamp 1771525617287, encontradas 63 linhas
+2026-02-19 15:30:03,645 - DEBUG - hierarchical_env.py:319 - Primeira linha de latência: (1771525617287, 3, 1, 0.0, 0.0, None)
+2026-02-19 15:30:03,645 - INFO - hierarchical_env.py:368 - Loaded latency for 63 UEs | ts=1771525617287
+2026-02-19 15:30:03,646 - DEBUG - hierarchical_env.py:585 - _update_cell_states: Estados das células atualizados para ts=1771525617287: {2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1}
+2026-02-19 15:30:03,667 - INFO - hierarchical_env.py:722 - Latency per-cell(2-8)=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] | GLOBAL_AVG=0.000 us | ts=1771525617287
+2026-02-19 15:30:03,667 - DEBUG - hierarchical_env.py:855 - _compute_reward_es: Thr=0.00, EnCons=0.00, RLF=4.00, OnCost=5.6700, CellsON=4, Lat_Avg=0.000us (Term=0.0000) -> RewardES=-2.1270
+2026-02-19 15:30:03,667 - DEBUG - hierarchical_env.py:884 - _compute_reward_ts: Primeiro cálculo no timestamp 1771525617287
+2026-02-19 15:30:03,667 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 1): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,667 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 2): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 3): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 4): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 5): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 6): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 7): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 8): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 9): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 10): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 11): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 12): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 13): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 14): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 15): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 16): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 17): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 18): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 19): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 20): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 21): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 22): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 23): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 24): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 25): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 26): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 27): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 28): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 29): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 30): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 31): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 32): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 33): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 34): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 35): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 36): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 37): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 38): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 39): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 40): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 41): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 42): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 43): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 44): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 45): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 46): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 47): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 48): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 49): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 50): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 51): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 52): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 53): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 54): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 55): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 56): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 57): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 58): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 59): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 60): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 61): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 62): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 63): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:30:03,668 - DEBUG - hierarchical_env.py:1009 - Recompensa TS Total: 0.0000
+2026-02-19 15:30:03,685 - INFO - hierarchical_env.py:1083 - Step 1 @ TS=1771525617287ms - Reward Total: -2.1270 (ES: -2.1270, TS: 0.0000)
+2026-02-19 15:30:03,704 - DEBUG - hierarchical_env.py:427 - Ação Contínua (SAC): [ 0.9999895  -0.02998102  0.99976385  0.9999964   0.9999815   0.99996006
+ -0.9999838  -0.99999756 -0.99999547  0.99829984  0.9999498  -0.9999933
+  0.99998426  0.99995995  0.99998546 -0.99999815  0.9999926   0.99999046
+ -0.9998664  -0.99997735 -0.99999595  0.9999869  -0.9999974  -0.9999997
+ -0.9999509   0.9999654  -0.9999946   0.9999628   0.9999385   0.9999938
+ -0.999991    0.9999871  -0.99966514 -0.9999545   0.9999901  -0.93225825
+  0.9996799   0.9999318   0.99991846 -0.99998844 -0.99952257 -0.9999344
+ -0.99987924 -0.999986    0.99998975  0.9998275  -0.99969995 -0.9999777
+  0.9999993  -0.99998343  0.99879193  0.9999931  -0.9999825   0.9999988
+  0.99996364 -0.99972785 -0.99999726 -0.99999934 -0.9998649  -0.99984103
+  0.99999094  0.7467575   0.9999895  -0.99999887]
+2026-02-19 15:30:03,705 - DEBUG - hierarchical_env.py:428 - Ação Decodificada (Discreta): [63  3  7  7  7  7  0  0  0  7  7  0  7  7  7  0  7  7  0  0  0  7  0  0
+  0  7  0  7  7  7  0  7  0  0  7  0  7  7  7  0  0  0  0  0  7  7  0  0
+  7  0  7  7  0  7  7  0  0  0  0  0  7  6  7  0]
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 2 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 3 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 4 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 5 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 9 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 10 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 12 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 13 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 14 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 16 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 17 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 21 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 25 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 27 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 28 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 29 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 31 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 34 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 36 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 37 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 38 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 44 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 45 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 48 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 50 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 51 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 53 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 54 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 60 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 61 -> Célula 7 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 62 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:30:03,705 - DEBUG - hierarchical_env.py:518 - Ação Achatada (Decodificada): [63  3  7  7  7  7  0  0  0  7  7  0  7  7  7  0  7  7  0  0  0  7  0  0
+  0  7  0  7  7  7  0  7  0  0  7  0  7  7  7  0  0  0  0  0  7  7  0  0
+  7  0  7  7  0  7  7  0  0  0  0  0  7  6  7  0]
+2026-02-19 15:30:03,705 - DEBUG - hierarchical_env.py:519 - Ação Hierárquica Enviada: [(0, 2, 1), (0, 3, 1), (0, 4, 1), (0, 5, 1), (0, 6, 0), (0, 7, 0), (0, 8, 0), (1, 1, 4)]
+2026-02-19 15:30:03,705 - DEBUG - hierarchical_env.py:520 - Previous Inverted Action (para ZERO_COUNT): 0000111
+2026-02-19 15:31:51,825 - WARNING - hierarchical_env.py:1210 - Linha ignorada em bsState.txt (formato inesperado): ['7', '0']
+2026-02-19 15:31:51,836 - DEBUG - hierarchical_env.py:1248 - _fill_datalake_usecase: 14 novas linhas inseridas na tabela bsState.
+2026-02-19 15:31:51,837 - DEBUG - hierarchical_env.py:317 - Procurando latência para timestamp 1771525617387, encontradas 63 linhas
+2026-02-19 15:31:51,837 - DEBUG - hierarchical_env.py:319 - Primeira linha de latência: (1771525617387, 3, 1, 72.476413, 5718.0, None)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 5718.000ms (valor bruto: 5718.0)
+2026-02-19 15:31:51,837 - INFO - hierarchical_env.py:368 - Loaded latency for 63 UEs | ts=1771525617387
+2026-02-19 15:31:51,838 - DEBUG - hierarchical_env.py:585 - _update_cell_states: Estados das células atualizados para ts=1771525617387: {2: 1, 3: 1, 4: 1, 5: 1, 6: 0, 7: 0, 8: 0}
+2026-02-19 15:31:51,858 - INFO - hierarchical_env.py:722 - Latency per-cell(2-8)=[72476.413, 72476.413, 72476.413, 72476.413, 72476.413, 72476.413, 0.0] | GLOBAL_AVG=72476.413 us | ts=1771525617387
+2026-02-19 15:31:51,858 - DEBUG - hierarchical_env.py:855 - _compute_reward_es: Thr=7.01, EnCons=674.00, RLF=4.00, OnCost=2.9160, CellsON=4, Lat_Avg=72476.413us (Term=-449.5283) -> RewardES=-577.2655
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 1): 8.8975 (LogDiff: 8.8975, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 2): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 3): 5.2525 (LogDiff: 5.2525, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 4): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 5): 8.7354 (LogDiff: 8.7354, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 6): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 7): 7.8524 (LogDiff: 7.8524, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 8): 5.1762 (LogDiff: 5.1762, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 9): 8.6525 (LogDiff: 8.6525, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 10): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 11): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 12): 5.5915 (LogDiff: 5.5915, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 13): 8.5700 (LogDiff: 8.5700, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 14): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 15): 6.5900 (LogDiff: 6.5900, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 16): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 17): 8.6101 (LogDiff: 8.6101, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 18): 9.3935 (LogDiff: 9.3935, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 19): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 20): 6.6034 (LogDiff: 6.6034, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 21): 8.5244 (LogDiff: 8.5244, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 22): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 23): 5.5204 (LogDiff: 5.5204, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 24): 7.5456 (LogDiff: 7.5456, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 25): 8.9161 (LogDiff: 8.9161, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 26): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 27): 6.5768 (LogDiff: 6.5768, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 28): 7.3377 (LogDiff: 7.3377, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 29): 8.8476 (LogDiff: 8.8476, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 30): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 31): 6.5383 (LogDiff: 6.5383, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 32): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 33): 8.8720 (LogDiff: 8.8720, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 34): 9.2570 (LogDiff: 9.2570, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 35): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 36): 5.5915 (LogDiff: 5.5915, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 37): 7.9956 (LogDiff: 7.9956, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 38): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 39): 8.0155 (LogDiff: 8.0155, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 40): 5.4096 (LogDiff: 5.4096, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 41): 8.6527 (LogDiff: 8.6527, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 42): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 43): 5.5964 (LogDiff: 5.5964, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 44): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 45): 8.7718 (LogDiff: 8.7718, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 46): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 47): 5.5884 (LogDiff: 5.5884, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 48): 5.1140 (LogDiff: 5.1140, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 49): 9.0370 (LogDiff: 9.0370, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 50): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 51): 5.4096 (LogDiff: 5.4096, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 52): 5.5789 (LogDiff: 5.5789, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 53): 8.7185 (LogDiff: 8.7185, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 54): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 55): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 56): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 57): 8.4876 (LogDiff: 8.4876, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 58): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 59): 5.5964 (LogDiff: 5.5964, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 60): 5.4193 (LogDiff: 5.4193, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 61): 8.8578 (LogDiff: 8.8578, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 62): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 63): 5.1140 (LogDiff: 5.1140, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:31:51,859 - DEBUG - hierarchical_env.py:1009 - Recompensa TS Total: 336.6958
+2026-02-19 15:31:51,870 - INFO - hierarchical_env.py:1083 - Step 2 @ TS=1771525617387ms - Reward Total: -240.5697 (ES: -577.2655, TS: 336.6958)
+2026-02-19 15:31:51,889 - DEBUG - hierarchical_env.py:427 - Ação Contínua (SAC): [ 1.  1.  1. -1.  1. -1. -1.  1.  1.  1.  1.  1. -1. -1. -1. -1.  1.  1.
+  1. -1.  1.  1. -1. -1.  1.  1.  1. -1.  1. -1.  1.  1. -1.  1. -1. -1.
+  1. -1.  1.  1.  1. -1. -1. -1.  1.  1.  1.  1. -1. -1. -1.  1.  1.  1.
+ -1. -1. -1. -1. -1.  1.  1. -1. -1. -1.]
+2026-02-19 15:31:51,889 - DEBUG - hierarchical_env.py:428 - Ação Decodificada (Discreta): [63  7  7  0  7  0  0  7  7  7  7  7  0  0  0  0  7  7  7  0  7  7  0  0
+  7  7  7  0  7  0  7  7  0  7  0  0  7  0  7  7  7  0  0  0  7  7  7  7
+  0  0  0  7  7  7  0  0  0  0  0  7  7  0  0  0]
+2026-02-19 15:31:51,889 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 1 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,889 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 2 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,889 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 4 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 7 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 8 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 9 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 10 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 11 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 16 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 17 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 18 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 20 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 21 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 24 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 25 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 26 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 28 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 30 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 31 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 33 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 36 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 38 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 39 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 40 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 44 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 45 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 46 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 47 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 51 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 52 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 53 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 59 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 60 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:31:51,890 - DEBUG - hierarchical_env.py:518 - Ação Achatada (Decodificada): [63  7  7  0  7  0  0  7  7  7  7  7  0  0  0  0  7  7  7  0  7  7  0  0
+  7  7  7  0  7  0  7  7  0  7  0  0  7  0  7  7  7  0  0  0  7  7  7  7
+  0  0  0  7  7  7  0  0  0  0  0  7  7  0  0  0]
+2026-02-19 15:31:51,890 - DEBUG - hierarchical_env.py:519 - Ação Hierárquica Enviada: [(0, 2, 1), (0, 3, 1), (0, 4, 1), (0, 5, 1), (0, 6, 0), (0, 7, 0), (0, 8, 0)]
+2026-02-19 15:31:51,890 - DEBUG - hierarchical_env.py:520 - Previous Inverted Action (para ZERO_COUNT): 0000111
+2026-02-19 15:33:44,854 - WARNING - hierarchical_env.py:1210 - Linha ignorada em bsState.txt (formato inesperado): ['1771525617392', '7', '0']
+2026-02-19 15:33:44,872 - DEBUG - hierarchical_env.py:1248 - _fill_datalake_usecase: 14 novas linhas inseridas na tabela bsState.
+2026-02-19 15:33:44,873 - DEBUG - hierarchical_env.py:317 - Procurando latência para timestamp 1771525617487, encontradas 63 linhas
+2026-02-19 15:33:44,873 - DEBUG - hierarchical_env.py:319 - Primeira linha de latência: (1771525617487, 3, 1, 45.906016, 19477.0, None)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,873 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 19477.000ms (valor bruto: 19477.0)
+2026-02-19 15:33:44,874 - INFO - hierarchical_env.py:368 - Loaded latency for 63 UEs | ts=1771525617487
+2026-02-19 15:33:44,875 - DEBUG - hierarchical_env.py:585 - _update_cell_states: Estados das células atualizados para ts=1771525617487: {2: 1, 3: 1, 4: 1, 5: 1, 6: 0, 7: 0, 8: 0}
+2026-02-19 15:33:44,920 - INFO - hierarchical_env.py:722 - Latency per-cell(2-8)=[45906.016, 45906.016, 45906.016, 45906.016, 45906.016, 45906.016, 0.0] | GLOBAL_AVG=45906.016 us | ts=1771525617487
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:855 - _compute_reward_es: Thr=23.51, EnCons=1750.00, RLF=4.00, OnCost=2.6244, CellsON=4, Lat_Avg=45906.016us (Term=81.8797) -> RewardES=-245.1538
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 1): 8.7637 (LogDiff: 8.7637, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 2): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 3): 5.2525 (LogDiff: 5.2525, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 4): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 5): 8.6884 (LogDiff: 8.6884, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 6): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 7): 7.9247 (LogDiff: 7.9247, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 8): 5.1140 (LogDiff: 5.1140, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 9): 8.6123 (LogDiff: 8.6123, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 10): 9.2567 (LogDiff: 9.2567, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 11): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 12): 5.5915 (LogDiff: 5.5915, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 13): 8.5530 (LogDiff: 8.5530, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 14): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 15): 6.5900 (LogDiff: 6.5900, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 16): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 17): 8.6721 (LogDiff: 8.6721, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 18): 9.3308 (LogDiff: 9.3308, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 19): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 20): 6.6034 (LogDiff: 6.6034, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 21): 8.8584 (LogDiff: 8.8584, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 22): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 23): 5.5204 (LogDiff: 5.5204, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 24): 7.7363 (LogDiff: 7.7363, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 25): 8.7821 (LogDiff: 8.7821, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 26): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 27): 8.0891 (LogDiff: 8.0891, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 28): 7.8061 (LogDiff: 7.8061, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 29): 8.7342 (LogDiff: 8.7342, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 30): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 31): 6.5383 (LogDiff: 6.5383, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,921 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 32): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 33): 8.5409 (LogDiff: 8.5409, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 34): 9.3153 (LogDiff: 9.3153, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 35): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 36): 5.5915 (LogDiff: 5.5915, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 37): 8.5302 (LogDiff: 8.5302, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 38): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 39): 8.6774 (LogDiff: 8.6774, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 40): 5.4096 (LogDiff: 5.4096, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 41): 8.6924 (LogDiff: 8.6924, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 42): 9.6630 (LogDiff: 9.6630, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 43): 5.5964 (LogDiff: 5.5964, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 44): 7.9513 (LogDiff: 7.9513, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 45): 8.6668 (LogDiff: 8.6668, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 46): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 47): 5.5884 (LogDiff: 5.5884, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 48): 5.1140 (LogDiff: 5.1140, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 49): 8.8120 (LogDiff: 8.8120, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 50): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 51): 5.4096 (LogDiff: 5.4096, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 52): 5.5789 (LogDiff: 5.5789, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 53): 8.5892 (LogDiff: 8.5892, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 54): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 55): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 56): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 57): 8.6717 (LogDiff: 8.6717, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 58): 7.8861 (LogDiff: 7.8861, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 59): 5.5964 (LogDiff: 5.5964, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 60): 5.4193 (LogDiff: 5.4193, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 61): 8.9651 (LogDiff: 8.9651, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 62): 9.3548 (LogDiff: 9.3548, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 63): 5.1140 (LogDiff: 5.1140, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:33:44,922 - DEBUG - hierarchical_env.py:1009 - Recompensa TS Total: 378.5349
+2026-02-19 15:33:44,939 - INFO - hierarchical_env.py:1083 - Step 3 @ TS=1771525617487ms - Reward Total: 133.3810 (ES: -245.1538, TS: 378.5349)
+2026-02-19 15:33:45,012 - DEBUG - hierarchical_env.py:427 - Ação Contínua (SAC): [ 1.  1.  1. -1.  1. -1. -1.  1.  1.  1.  1.  1. -1. -1. -1. -1.  1.  1.
+  1. -1.  1.  1. -1. -1.  1.  1.  1. -1.  1. -1.  1.  1. -1.  1. -1. -1.
+  1. -1.  1.  1.  1. -1. -1. -1.  1.  1.  1.  1. -1. -1. -1.  1.  1.  1.
+ -1. -1. -1.  1. -1.  1.  1. -1. -1. -1.]
+2026-02-19 15:33:45,012 - DEBUG - hierarchical_env.py:428 - Ação Decodificada (Discreta): [63  7  7  0  7  0  0  7  7  7  7  7  0  0  0  0  7  7  7  0  7  7  0  0
+  7  7  7  0  7  0  7  7  0  7  0  0  7  0  7  7  7  0  0  0  7  7  7  7
+  0  0  0  7  7  7  0  0  0  7  0  7  7  0  0  0]
+2026-02-19 15:33:45,012 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 1 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,012 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 2 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,012 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 4 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,012 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 7 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,012 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 8 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,012 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 9 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,012 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 10 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,012 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 11 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,012 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 16 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,012 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 17 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,012 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 18 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 20 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 21 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 24 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 25 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 26 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 28 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 30 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 31 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 33 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 36 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 38 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 39 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 40 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 44 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 45 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 46 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 47 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 51 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 52 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 53 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 57 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 59 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,013 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 60 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:33:45,014 - DEBUG - hierarchical_env.py:518 - Ação Achatada (Decodificada): [63  7  7  0  7  0  0  7  7  7  7  7  0  0  0  0  7  7  7  0  7  7  0  0
+  7  7  7  0  7  0  7  7  0  7  0  0  7  0  7  7  7  0  0  0  7  7  7  7
+  0  0  0  7  7  7  0  0  0  7  0  7  7  0  0  0]
+2026-02-19 15:33:45,014 - DEBUG - hierarchical_env.py:519 - Ação Hierárquica Enviada: [(0, 2, 1), (0, 3, 1), (0, 4, 1), (0, 5, 1), (0, 6, 0), (0, 7, 0), (0, 8, 0)]
+2026-02-19 15:33:45,014 - DEBUG - hierarchical_env.py:520 - Previous Inverted Action (para ZERO_COUNT): 0000111
+2026-02-19 15:35:41,411 - WARNING - hierarchical_env.py:1210 - Linha ignorada em bsState.txt (formato inesperado): ['492', '6', '0']
+2026-02-19 15:35:41,419 - DEBUG - hierarchical_env.py:1248 - _fill_datalake_usecase: 14 novas linhas inseridas na tabela bsState.
+2026-02-19 15:35:41,421 - DEBUG - hierarchical_env.py:317 - Procurando latência para timestamp 1771525617587, encontradas 63 linhas
+2026-02-19 15:35:41,421 - DEBUG - hierarchical_env.py:319 - Primeira linha de latência: (1771525617587, 3, 1, 54.415784, 29474.0, None)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,421 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,422 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,423 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,423 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,423 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,423 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,423 - WARNING - hierarchical_env.py:352 - Latência absurda detectada e corrigida: 29474.000ms (valor bruto: 29474.0)
+2026-02-19 15:35:41,423 - INFO - hierarchical_env.py:368 - Loaded latency for 63 UEs | ts=1771525617587
+2026-02-19 15:35:41,424 - DEBUG - hierarchical_env.py:585 - _update_cell_states: Estados das células atualizados para ts=1771525617587: {2: 1, 3: 1, 4: 1, 5: 1, 6: 0, 7: 0, 8: 0}
+2026-02-19 15:35:41,448 - INFO - hierarchical_env.py:722 - Latency per-cell(2-8)=[54415.784, 54415.784, 54415.784, 54415.784, 54415.784, 54415.784, 0.0] | GLOBAL_AVG=54415.784 us | ts=1771525617587
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:855 - _compute_reward_es: Thr=34.79, EnCons=2492.00, RLF=4.00, OnCost=2.3620, CellsON=4, Lat_Avg=54415.784us (Term=-88.3157) -> RewardES=-552.8060
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 1): 8.8154 (LogDiff: 8.8154, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 2): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 3): 5.2525 (LogDiff: 5.2525, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 4): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 5): 8.6992 (LogDiff: 8.6992, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 6): 9.2327 (LogDiff: 9.2327, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 7): 7.9249 (LogDiff: 7.9249, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 8): 5.1140 (LogDiff: 5.1140, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 9): 8.6877 (LogDiff: 8.6877, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 10): 9.3553 (LogDiff: 9.3553, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 11): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 12): 5.5915 (LogDiff: 5.5915, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 13): 8.7273 (LogDiff: 8.7273, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 14): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 15): 6.5900 (LogDiff: 6.5900, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 16): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 17): 8.6276 (LogDiff: 8.6276, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,448 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 18): 9.3178 (LogDiff: 9.3178, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 19): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 20): 6.6034 (LogDiff: 6.6034, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 21): 8.8834 (LogDiff: 8.8834, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 22): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 23): 5.5204 (LogDiff: 5.5204, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 24): 7.8680 (LogDiff: 7.8680, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 25): 8.6923 (LogDiff: 8.6923, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 26): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 27): 8.6000 (LogDiff: 8.6000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 28): 7.9514 (LogDiff: 7.9514, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 29): 8.8208 (LogDiff: 8.8208, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 30): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 31): 6.5383 (LogDiff: 6.5383, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 32): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 33): 8.5257 (LogDiff: 8.5257, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 34): 9.3167 (LogDiff: 9.3167, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 35): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 36): 5.5915 (LogDiff: 5.5915, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 37): 8.6419 (LogDiff: 8.6419, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 38): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 39): 8.8621 (LogDiff: 8.8621, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 40): 5.4096 (LogDiff: 5.4096, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 41): 8.6132 (LogDiff: 8.6132, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 42): 9.7048 (LogDiff: 9.7048, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 43): 5.5964 (LogDiff: 5.5964, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 44): 7.9021 (LogDiff: 7.9021, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 45): 8.5890 (LogDiff: 8.5890, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 46): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 47): 5.5884 (LogDiff: 5.5884, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 48): 5.1140 (LogDiff: 5.1140, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 49): 8.7270 (LogDiff: 8.7270, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 50): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 51): 5.4096 (LogDiff: 5.4096, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 52): 5.5789 (LogDiff: 5.5789, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 53): 8.5537 (LogDiff: 8.5537, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 54): 0.0000 (LogDiff: 0.0000, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 55): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 56): 5.0978 (LogDiff: 5.0978, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 57): 8.7724 (LogDiff: 8.7724, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 58): 9.4417 (LogDiff: 9.4417, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 59): 5.5964 (LogDiff: 5.5964, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 60): 5.4193 (LogDiff: 5.4193, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 61): 8.8515 (LogDiff: 8.8515, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 62): 9.3306 (LogDiff: 9.3306, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1000 - Recompensa TS (UE 63): 5.1140 (LogDiff: 5.1140, HoCost: 0.0000, LatPenalty: 0.0000)
+2026-02-19 15:35:41,449 - DEBUG - hierarchical_env.py:1009 - Recompensa TS Total: 390.4467
+2026-02-19 15:35:41,467 - INFO - hierarchical_env.py:1083 - Step 4 @ TS=1771525617587ms - Reward Total: -162.3594 (ES: -552.8060, TS: 390.4467)
+2026-02-19 15:35:41,507 - DEBUG - hierarchical_env.py:427 - Ação Contínua (SAC): [ 1.  1.  1. -1.  1. -1. -1.  1.  1.  1.  1.  1. -1. -1. -1. -1.  1.  1.
+  1. -1.  1.  1. -1. -1.  1.  1.  1. -1.  1. -1.  1.  1. -1.  1. -1. -1.
+  1. -1.  1.  1.  1. -1. -1. -1.  1.  1.  1.  1. -1. -1. -1.  1.  1.  1.
+ -1. -1. -1.  1. -1.  1.  1. -1. -1. -1.]
+2026-02-19 15:35:41,507 - DEBUG - hierarchical_env.py:428 - Ação Decodificada (Discreta): [63  7  7  0  7  0  0  7  7  7  7  7  0  0  0  0  7  7  7  0  7  7  0  0
+  7  7  7  0  7  0  7  7  0  7  0  0  7  0  7  7  7  0  0  0  7  7  7  7
+  0  0  0  7  7  7  0  0  0  7  0  7  7  0  0  0]
+2026-02-19 15:35:41,507 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 1 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,507 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 2 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,507 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 4 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,507 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 7 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,507 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 8 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,507 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 9 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,507 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 10 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,507 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 11 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,507 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 16 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,507 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 17 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,507 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 18 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,507 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 20 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,507 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 21 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 24 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 25 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 26 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 28 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 30 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 31 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 33 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 36 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 38 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 39 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 40 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 44 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 45 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 46 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 47 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 51 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 52 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 53 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 57 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 59 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - WARNING - hierarchical_env.py:508 - Ação TS (HO) para UE 60 -> Célula 8 IGNORADA, pois a célula está sendo DESLIGADA neste step.
+2026-02-19 15:35:41,508 - DEBUG - hierarchical_env.py:518 - Ação Achatada (Decodificada): [63  7  7  0  7  0  0  7  7  7  7  7  0  0  0  0  7  7  7  0  7  7  0  0
+  7  7  7  0  7  0  7  7  0  7  0  0  7  0  7  7  7  0  0  0  7  7  7  7
+  0  0  0  7  7  7  0  0  0  7  0  7  7  0  0  0]
+2026-02-19 15:35:41,508 - DEBUG - hierarchical_env.py:519 - Ação Hierárquica Enviada: [(0, 2, 1), (0, 3, 1), (0, 4, 1), (0, 5, 1), (0, 6, 0), (0, 7, 0), (0, 8, 0)]
+2026-02-19 15:35:41,508 - DEBUG - hierarchical_env.py:520 - Previous Inverted Action (para ZERO_COUNT): 0000111

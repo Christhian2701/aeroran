@@ -174,9 +174,32 @@ MmWaveEnbNetDevice::Getl3sinrMap()
     return m_l3sinrMap;
 }
 
+Time
+MmWaveEnbNetDevice::GetAccumulatedActiveTime() const
+{
+    Time totalActiveTime = m_totalActiveTime;
+    if (IsCellStateActive(m_CellState))
+    {
+        totalActiveTime += Simulator::Now() - m_lastStateChangeTime;
+    }
+
+    return totalActiveTime;
+}
+
+bool
+MmWaveEnbNetDevice::IsCellStateActive(enumModeEnergyBs value) const
+{
+    return value == enumModeEnergyBs::ON || value == enumModeEnergyBs::Idle;
+}
+
 void
 MmWaveEnbNetDevice::SetCellState(enumModeEnergyBs value)
 {
+    if (IsCellStateActive(m_CellState))
+    {
+        m_totalActiveTime += Simulator::Now() - m_lastStateChangeTime;
+    }
+    m_lastStateChangeTime = Simulator::Now();
     m_CellState = value;
 }
 

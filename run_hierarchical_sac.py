@@ -31,6 +31,33 @@ import pandas as pd
 # Configuração de paths
 SCRIPT_DIR = Path(__file__).parent.resolve()
 ENV_FILE = SCRIPT_DIR / "hierarchical.env"
+LEGACY_REPO_ROOT = Path("/home/elioth/iwcmc_oran")
+PATH_KEYS = {
+    "NS3_PATH",
+    "NSORAN_GYM_PATH",
+    "SAC_MODEL_PATH",
+    "OUTPUT_FOLDER",
+    "CSV_METRICS_PATH",
+    "DATABASE_PATH",
+    "LOG_FILE",
+}
+
+
+def normalize_env_value(key: str, value: str, env_dir: Path) -> str:
+    """Resolves path settings against this repo and remaps legacy copied paths."""
+    if key not in PATH_KEYS:
+        return value
+
+    path_value = Path(os.path.expanduser(value))
+    if path_value.is_absolute():
+        try:
+            relative_path = path_value.relative_to(LEGACY_REPO_ROOT)
+        except ValueError:
+            return str(path_value)
+        return str((SCRIPT_DIR / relative_path).resolve())
+
+    return str((env_dir / path_value).resolve())
+
 
 def load_env_file(env_path: Path) -> Dict[str, str]:
     """Carrega variáveis do arquivo .env"""
@@ -44,7 +71,8 @@ def load_env_file(env_path: Path) -> Dict[str, str]:
             line = line.strip()
             if line and not line.startswith('#') and '=' in line:
                 key, value = line.split('=', 1)
-                env_vars[key.strip()] = value.strip()
+                key = key.strip()
+                env_vars[key] = normalize_env_value(key, value.strip(), env_path.parent)
     return env_vars
 
 # Carrega configurações do .env
@@ -313,7 +341,9 @@ class HierarchicalUAVEnv(NsOranEnv):
         # Configuração das células
         self.cellList = [2, 3, 4, 5, 6, 7, 8]
         self.n_gnbs = len(self.cellList)
-        self.n_ues_per_gnb = scenario_configuration.get('ues', 9)
+        self.n_ues_per_gnb = scenario_configuration.get('ues', [9])
+        if isinstance(self.n_ues_per_gnb, list):
+            self.n_ues_per_gnb = self.n_ues_per_gnb[0]
         self.n_ues_total = self.n_ues_per_gnb * self.n_gnbs
 
         # Lista de ações ES válidas
@@ -385,6 +415,45 @@ class HierarchicalUAVEnv(NsOranEnv):
         if verbose:
             self.logger.setLevel(logging.DEBUG)
 
+        # --- Configuração do CSV (igual hierarchical_env.py) ---
+        self.qos_csv_path = os.path.join(output_folder, 'qos_hierarchical_metrics_UAV.csv')
+        self._qos_header = (
+            ["timestamp", "step"]
+            + list(self.es_columns_state)
+            + ["latency_cell_us", "latency_ue_us", "reward"]
+        )
+        self._ensure_qos_csv()
+        
+    def _ensure_qos_csv(self):
+        """Garante que o arquivo CSV existe com cabeçalho"""
+        os.makedirs(os.path.dirname(self.qos_csv_path) or ".", exist_ok=True)
+        new_file = (not os.path.exists(self.qos_csv_path)) or os.path.getsize(self.qos_csv_path) == 0
+        if new_file:
+            with open(self.qos_csv_path, "w", newline="") as f:
+                csv.writer(f).writerow(self._qos_header)
+                self.logger.info(f"Criado novo arquivo CSV: {self.qos_csv_path}")
+
+    def _append_qos_snapshot(self, latency_cell_us: float, latency_ue_us: float, reward: float):
+        """Adiciona uma linha ao CSV de métricas"""
+        try:
+            row = [int(getattr(self, 'last_timestamp', 0)), int(self.num_steps)]
+            
+            for col in self.es_columns_state:
+                val = 0.0
+                try:
+                    if col in self.observations.columns and len(self.observations) > 0:
+                        val = float(self.observations[col].iloc[0])
+                except Exception:
+                    pass
+                row.append(val)
+            
+            row.extend([float(latency_cell_us), float(latency_ue_us), float(reward)])
+            
+            with open(self.qos_csv_path, "a", newline="") as f:
+                csv.writer(f).writerow(row)
+        except Exception as e:
+            self.logger.error(f"Erro ao escrever CSV: {e}")
+
     def reset(self, seed=None, options=None):
         """Reset do ambiente e início de novo episódio"""
         obs, info = super().reset(seed=seed, options=options)
@@ -429,10 +498,13 @@ class HierarchicalUAVEnv(NsOranEnv):
 
         return {"es_obs": es_obs, "ts_obs": ts_obs}
 
-    def _compute_action(self, continuous_action: np.ndarray) -> list:
+    def _compute_action(self, continuous_action) -> list:
         """
         Converte ação contínua SAC para formato NS3
         """
+        # Garante que é um numpy array
+        continuous_action = np.array(continuous_action).flatten()
+        
         # Normaliza de [-1, 1] para [0, 1]
         normalized = (continuous_action + 1.0) / 2.0
 
@@ -543,6 +615,9 @@ class HierarchicalUAVEnv(NsOranEnv):
         throughput = self.observations.get('SUM_QosFlow.PdcpPduVolumeDL_Filter', pd.Series([0])).iloc[0] if 'SUM_QosFlow.PdcpPduVolumeDL_Filter' in self.observations.columns else 0
         self.episode_throughputs.append(throughput)
 
+        # Escreve no CSV (igual hierarchical_env.py)
+        self._append_qos_snapshot(latency_cell, latency_ue, reward)
+
         # Salva no banco de dados
         if self.metrics_db and self.episode_id:
             # Métricas do step
@@ -592,10 +667,75 @@ class HierarchicalUAVEnv(NsOranEnv):
     def _update_observations(self):
         """Atualiza DataFrame de observações a partir do datalake"""
         try:
-            if hasattr(self, 'datalake') and self.datalake:
-                # Placeholder: aqui seria feita a leitura real do datalake
-                # Similar ao que é feito em hierarchical_env.py
-                pass
+            if not hasattr(self, 'datalake') or not self.datalake:
+                return
+
+            if not hasattr(self, 'last_timestamp'):
+                return
+
+            # Métricas ES (igual hierarchical_env.py)
+            kpms_raw_es = ["nrCellId", "QosFlow.PdcpPduVolumeDL_Filter", "TB.TotNbrDl.1", 
+                          "L3 serving SINR", "RRU.PrbUsedDl", "TB.TotNbrDlInitial.64Qam", 
+                          "TB.TotNbrDlInitial.Qpsk", "TB.TotNbrDlInitial.16Qam"]
+            
+            ue_kpms_es = self.datalake.read_kpms(self.last_timestamp, kpms_raw_es)
+            
+            if ue_kpms_es is None:
+                return
+
+            ue_complete_kpms = []
+            for ue_kpm in ue_kpms_es:
+                if len(ue_kpm) <= 1:
+                    continue
+                imsi = ue_kpm[0]
+                cell_id = ue_kpm[1] if len(ue_kpm) > 1 else 0
+                
+                if cell_id not in self.cellList:
+                    continue
+                
+                state = self.cells_states.get(cell_id, 1)
+                new_ue_kpm = ue_kpm + (0.0, 0.0, state)  # latência placeholder
+                ue_complete_kpms.append(new_ue_kpm)
+
+            if not ue_complete_kpms:
+                return
+
+            columns = (['ueImsiComplete'] + kpms_raw_es + 
+                      ["DRB.PdcpSduDelayDl(cellAverageLatency)", 
+                       "DRB.PdcpSduDelayDl.UEID (pdcpLatency)", "state"])
+            
+            df = pd.DataFrame(ue_complete_kpms, 
+                            columns=columns[:len(ue_complete_kpms[0])])
+            df["timestamp"] = self.last_timestamp
+
+            # Agrega por célula (similar ao offline_training_preprocessing)
+            agg_dict = {}
+            for col in ['QosFlow.PdcpPduVolumeDL_Filter', 'TB.TotNbrDl.1']:
+                if col in df.columns:
+                    agg_dict[col] = 'sum'
+            
+            for col in ['L3 serving SINR', 'RRU.PrbUsedDl']:
+                if col in df.columns:
+                    agg_dict[col] = 'mean'
+
+            if 'nrCellId' in df.columns and agg_dict:
+                grouped = df.groupby('nrCellId').agg(agg_dict).reset_index()
+                
+                # Cria DataFrame de observações no formato esperado
+                obs_row = {}
+                for cell in self.cellList:
+                    cell_data = grouped[grouped['nrCellId'] == cell]
+                    if len(cell_data) > 0:
+                        for col in agg_dict.keys():
+                            obs_row[f"{col}_{cell}"] = cell_data[col].iloc[0]
+                
+                # Métricas agregadas
+                for col in ['QosFlow.PdcpPduVolumeDL_Filter', 'TB.TotNbrDl.1']:
+                    if col in df.columns:
+                        obs_row[f"SUM_{col}"] = df[col].sum()
+                
+                self.observations = pd.DataFrame([obs_row])
+                
         except Exception as e:
             self.logger.warning(f"Erro ao atualizar observações: {e}")
 

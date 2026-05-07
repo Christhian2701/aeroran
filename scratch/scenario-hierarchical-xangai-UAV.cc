@@ -44,8 +44,12 @@
 #include "ns3/mobility-module.h"
 #include "ns3/applications-module.h"
 #include "ns3/point-to-point-helper.h"
+#include "ns3/lte-enb-net-device.h"
+#include "ns3/lte-enb-phy.h"
 #include <ns3/lte-ue-net-device.h>
 #include "ns3/mmwave-helper.h"
+#include "ns3/mmwave-enb-net-device.h"
+#include "ns3/mmwave-enb-phy.h"
 #include "ns3/epc-helper.h"
 #include "ns3/mmwave-point-to-point-epc-helper.h"
 #include "ns3/lte-helper.h"
@@ -58,6 +62,7 @@
 #include <filesystem>
 #include <random>
 #include <cmath>
+#include <limits>
 
 using namespace ns3;
 using namespace mmwave;
@@ -1050,6 +1055,192 @@ PeriodicMobilityTraceWithGnbs (std::ostream *os, NodeContainer ueNodes, NodeCont
 
 // --- Funções de Log (do scenario-three.cc) ---
 std::ofstream outFile;
+std::ofstream g_pathGymOkRlfFile;
+std::ofstream g_pathGymOkActivityFile;
+std::ofstream g_pathGymOkPhyPowerFile;
+std::map<uint16_t, std::map<uint16_t, double>> g_pathGymOkLteSinrByCell;
+std::map<uint16_t, std::map<uint64_t, long double>> g_pathGymOkMmWaveSinrByCell;
+
+void
+EnsurePathGymOkFile (std::ofstream& stream, const std::string& filename, const std::string& header)
+{
+    if (!stream.is_open ())
+    {
+        stream.open (filename.c_str (), std::ios_base::out | std::ios_base::trunc);
+        stream << header << std::endl;
+    }
+}
+
+double
+PathGymOkToDb (long double sinrLinear)
+{
+    if (sinrLinear <= 0.0)
+    {
+        return -std::numeric_limits<double>::infinity ();
+    }
+
+    return 10.0 * std::log10 (static_cast<double> (sinrLinear));
+}
+
+uint64_t
+GetUnixTimestampMs (Ptr<LteEnbNetDevice> ltedev)
+{
+    return ltedev->GetStartTime () + Simulator::Now ().GetMilliSeconds ();
+}
+
+void
+PathGymOkLteSinrTrace (std::string context,
+                       uint16_t cellId,
+                       uint16_t rnti,
+                       double rsrp,
+                       double sinr,
+                       uint8_t componentCarrierId)
+{
+    (void) context;
+    (void) rsrp;
+    (void) componentCarrierId;
+    g_pathGymOkLteSinrByCell[cellId][rnti] = sinr;
+}
+
+void
+PathGymOkMmWaveSinrTrace (std::string context, uint64_t imsi, uint16_t cellId, long double sinr)
+{
+    (void) context;
+    g_pathGymOkMmWaveSinrByCell[cellId][imsi] = sinr;
+}
+
+void
+EmitPathGymOkRlfDump (double nowSeconds, uint16_t cellId, uint32_t badSinrUes)
+{
+    if (badSinrUes > 0)
+    {
+        std::cout << "RLF_DUMP," << nowSeconds << "," << cellId << "," << badSinrUes
+                  << std::endl;
+    }
+}
+
+void
+PathGymOkSampleMetrics (Ptr<LteEnbNetDevice> ltedev,
+                        NetDeviceContainer mmWaveEnbDevs,
+                        double outageThresholdDb,
+                        double interval,
+                        double simTime)
+{
+    EnsurePathGymOkFile (g_pathGymOkRlfFile,
+                         "path-gym-ok-rlf-100ms.txt",
+                         "Timestamp UNIX CellType CellId TotalTrackedUes BadSinrUes BadSinrPct ThresholdDb");
+    EnsurePathGymOkFile (g_pathGymOkActivityFile,
+                         "path-gym-ok-cell-activity-100ms.txt",
+                         "Timestamp UNIX CellType CellId Active TotalActiveCells ActiveDurationMs");
+    EnsurePathGymOkFile (g_pathGymOkPhyPowerFile,
+                         "path-gym-ok-phy-power-100ms.txt",
+                         "Timestamp UNIX CellType CellId TxPowerDbm Active");
+
+    const double nowSeconds = Simulator::Now ().GetSeconds ();
+    const uint64_t unixTimestampMs = GetUnixTimestampMs (ltedev);
+
+    std::vector<Ptr<MmWaveEnbNetDevice>> mmWaveDevices;
+    uint32_t activeMmWaveCells = 0;
+    for (uint32_t i = 0; i < mmWaveEnbDevs.GetN (); ++i)
+    {
+        Ptr<MmWaveEnbNetDevice> mmdev = DynamicCast<MmWaveEnbNetDevice> (mmWaveEnbDevs.Get (i));
+        if (!mmdev)
+        {
+            continue;
+        }
+
+        mmWaveDevices.push_back (mmdev);
+        if (mmdev->GetBsState ())
+        {
+            ++activeMmWaveCells;
+        }
+    }
+
+    const uint32_t activeCellsTotal = activeMmWaveCells + 1;
+    const uint16_t lteCellId = ltedev->GetCellId ();
+    uint32_t lteTrackedUes = 0;
+    uint32_t lteBadSinrUes = 0;
+    auto lteIt = g_pathGymOkLteSinrByCell.find (lteCellId);
+    if (lteIt != g_pathGymOkLteSinrByCell.end ())
+    {
+        lteTrackedUes = lteIt->second.size ();
+        for (const auto& entry : lteIt->second)
+        {
+            if (PathGymOkToDb (entry.second) < outageThresholdDb)
+            {
+                ++lteBadSinrUes;
+            }
+        }
+    }
+
+    const double lteBadSinrPct =
+        lteTrackedUes > 0 ? 100.0 * static_cast<double> (lteBadSinrUes) / lteTrackedUes : 0.0;
+    g_pathGymOkRlfFile << nowSeconds << " " << unixTimestampMs << " LTE " << lteCellId << " "
+                       << lteTrackedUes << " " << lteBadSinrUes << " " << lteBadSinrPct << " "
+                       << outageThresholdDb << std::endl;
+    EmitPathGymOkRlfDump (nowSeconds, lteCellId, lteBadSinrUes);
+    g_pathGymOkActivityFile << nowSeconds << " " << unixTimestampMs << " LTE " << lteCellId
+                            << " 1 " << activeCellsTotal << " "
+                            << Simulator::Now ().GetMilliSeconds () << std::endl;
+
+    Ptr<LteEnbPhy> ltePhy = ltedev->GetPhy ();
+    g_pathGymOkPhyPowerFile << nowSeconds << " " << unixTimestampMs << " LTE " << lteCellId
+                            << " " << (ltePhy ? ltePhy->GetTxPower () : 0.0) << " 1"
+                            << std::endl;
+
+    for (const auto& mmdev : mmWaveDevices)
+    {
+        const uint16_t mmWaveCellId = mmdev->GetCellId ();
+        uint32_t trackedUes = 0;
+        uint32_t badSinrUes = 0;
+
+        auto mmIt = g_pathGymOkMmWaveSinrByCell.find (mmWaveCellId);
+        if (mmIt != g_pathGymOkMmWaveSinrByCell.end ())
+        {
+            trackedUes = mmIt->second.size ();
+            for (const auto& entry : mmIt->second)
+            {
+                if (PathGymOkToDb (entry.second) < outageThresholdDb)
+                {
+                    ++badSinrUes;
+                }
+            }
+        }
+
+        const double badSinrPct =
+            trackedUes > 0 ? 100.0 * static_cast<double> (badSinrUes) / trackedUes : 0.0;
+        const uint32_t active = mmdev->GetBsState () ? 1u : 0u;
+
+        g_pathGymOkRlfFile << nowSeconds << " " << unixTimestampMs << " NR " << mmWaveCellId
+                           << " " << trackedUes << " " << badSinrUes << " " << badSinrPct
+                           << " " << outageThresholdDb << std::endl;
+        EmitPathGymOkRlfDump (nowSeconds, mmWaveCellId, badSinrUes);
+        g_pathGymOkActivityFile
+            << nowSeconds << " " << unixTimestampMs << " NR " << mmWaveCellId << " " << active
+            << " " << activeCellsTotal << " "
+            << static_cast<uint64_t> (
+                   std::llround (mmdev->GetAccumulatedActiveTime ().GetMilliSeconds ()))
+            << std::endl;
+
+        Ptr<MmWaveEnbPhy> mmWavePhy = mmdev->GetPhy ();
+        g_pathGymOkPhyPowerFile << nowSeconds << " " << unixTimestampMs << " NR "
+                                << mmWaveCellId << " "
+                                << (mmWavePhy ? mmWavePhy->GetTxPower () : 0.0) << " "
+                                << active << std::endl;
+    }
+
+    if (nowSeconds + interval <= simTime + 1e-6)
+    {
+        Simulator::Schedule (Seconds (interval),
+                             &PathGymOkSampleMetrics,
+                             ltedev,
+                             mmWaveEnbDevs,
+                             outageThresholdDb,
+                             interval,
+                             simTime);
+    }
+}
+
 void
 BsStateTrace (std::string filename, Ptr<LteEnbNetDevice> ltedev, Ptr<LteEnbRrc> lte_rrc )
 {
@@ -1156,6 +1347,11 @@ static ns3::GlobalValue g_configuration ("configuration", "Set the wanted config
 static ns3::GlobalValue g_trafficModel ("trafficModel", "Type of the traffic model [0,3]", ns3::UintegerValue (3), ns3::MakeUintegerChecker<uint8_t> ()); // Ajustado para corresponder ao seu log
 static ns3::GlobalValue q_useSemaphores ("useSemaphores", "If true, enables the use of semaphores for external environment control", ns3::BooleanValue (false), ns3::MakeBooleanChecker ()); // Ajustado para corresponder ao seu log de erro
 static ns3::GlobalValue g_controlFileName ("controlFileName", "The path to the control file for hierarchical actions", ns3::StringValue (""), ns3::MakeStringChecker ()); // Definido para o esperado
+static ns3::GlobalValue g_scheduleControlMessages (
+    "scheduleControlMessages",
+    "If true, execute control actions at the timestamp encoded in the control file",
+    ns3::BooleanValue (false),
+    ns3::MakeBooleanChecker ());
 //hierarchical_actions.csv
 // Parâmetros de Handover (do scenario-one)
 static ns3::GlobalValue g_hoSinrDifference ("hoSinrDifference", "The SINR value difference for which a handover is triggered", ns3::DoubleValue (3), ns3::MakeDoubleChecker<double> ());
@@ -1165,6 +1361,32 @@ static ns3::GlobalValue g_positionAllocator ("positionAllocator", "UE position a
 static ns3::GlobalValue g_nBsNoUesAlloc ("nBsNoUesAlloc", "Number of BS without initial UEs allocated", ns3::IntegerValue (-1), ns3::MakeIntegerChecker<int8_t> ());
 static ns3::GlobalValue g_minSpeed ("minSpeed", "minimum UE speed in m/s", ns3::DoubleValue (2.0), ns3::MakeDoubleChecker<double> ());
 static ns3::GlobalValue g_maxSpeed ("maxSpeed", "maximum UE speed in m/s", ns3::DoubleValue (4.0), ns3::MakeDoubleChecker<double> ());
+
+// Parâmetros de Heurística Energy Saving (do scenario-three)
+static ns3::GlobalValue g_heuristicType (
+    "heuristicType",
+    "Type of heuristic for managing BS status: -1=No heuristic (RL control), 0=Always ON, 1=Dynamic sleeping",
+    ns3::IntegerValue (-1), ns3::MakeIntegerChecker<int8_t> ());
+static ns3::GlobalValue g_sinrTh (
+    "sinrTh",
+    "SINR threshold for static and dynamic sleeping heuristic",
+    ns3::DoubleValue (73.0), ns3::MakeDoubleChecker<double> ());
+static ns3::GlobalValue g_bsOn (
+    "bsOn",
+    "number of BS to turn ON for static and dynamic sleeping heuristic",
+    ns3::UintegerValue (2), ns3::MakeUintegerChecker<uint8_t> ());
+static ns3::GlobalValue g_bsIdle (
+    "bsIdle",
+    "number of BS to turn IDLE for static and dynamic sleeping heuristic",
+    ns3::UintegerValue (2), ns3::MakeUintegerChecker<uint8_t> ());
+static ns3::GlobalValue g_bsSleep (
+    "bsSleep",
+    "number of BS to turn Sleep for static and dynamic sleeping heuristic",
+    ns3::UintegerValue (2), ns3::MakeUintegerChecker<uint8_t> ());
+static ns3::GlobalValue g_bsOff (
+    "bsOff",
+    "number of BS to turn Off for static and dynamic sleeping heuristic",
+    ns3::UintegerValue (1), ns3::MakeUintegerChecker<uint8_t> ());
 
 // Parâmetros Técnicos (comuns ou de um dos cenários)
 static ns3::GlobalValue g_bufferSize ("bufferSize", "RLC tx buffer size (MB)", ns3::UintegerValue (1), ns3::MakeUintegerChecker<uint32_t> ());
@@ -1183,6 +1405,7 @@ static ns3::GlobalValue g_numberOfRaPreambles ("numberOfRaPreambles", "Number of
 static ns3::GlobalValue g_handoverMode ("handoverMode", "HO euristic to be used", ns3::StringValue ("DynamicTtt"), ns3::MakeStringChecker ()); // Ajustado para corresponder ao seu log
 static ns3::GlobalValue g_e2TermIp ("e2TermIp", "The IP address of the RIC E2 termination", ns3::StringValue ("127.0.0.1"), ns3::MakeStringChecker ());
 static ns3::GlobalValue g_enableE2FileLogging ("enableE2FileLogging", "If true, generate offline file logging instead of connecting to RIC", ns3::BooleanValue (true), ns3::MakeBooleanChecker ());
+static ns3::GlobalValue g_pathGymOkMetrics ("pathGymOkMetrics", "If true, enable reversible path-gym-ok 100 ms KPI hooks", ns3::BooleanValue (true), ns3::MakeBooleanChecker ());
 
 // Adicionado RngRun para corresponder ao seu log
 static ns3::GlobalValue g_rngRun ("RngRun", "Seed for random number generation", ns3::UintegerValue (555), ns3::MakeUintegerChecker<uint32_t> ());
@@ -1259,6 +1482,22 @@ main (int argc, char *argv[])
     bool useSemaphores = booleanValue.Get ();
     GlobalValue::GetValueByName ("controlFileName", stringValue);
     std::string controlFilename = stringValue.Get ();
+    GlobalValue::GetValueByName ("scheduleControlMessages", booleanValue);
+    bool scheduleControlMessages = booleanValue.Get ();
+
+    // Heuristic Type for Energy Saving
+    GlobalValue::GetValueByName ("heuristicType", integerValue);
+    int8_t heuristicType = integerValue.Get ();
+    GlobalValue::GetValueByName ("sinrTh", doubleValue);
+    double sinrTh = doubleValue.Get ();
+    GlobalValue::GetValueByName ("bsOn", uintegerValue);
+    int bsOn = uintegerValue.Get ();
+    GlobalValue::GetValueByName ("bsIdle", uintegerValue);
+    int bsIdle = uintegerValue.Get ();
+    GlobalValue::GetValueByName ("bsSleep", uintegerValue);
+    int bsSleep = uintegerValue.Get ();
+    GlobalValue::GetValueByName ("bsOff", uintegerValue);
+    int bsOff = uintegerValue.Get ();
 
     // E2 Logging settings
     GlobalValue::GetValueByName ("e2lteEnabled", booleanValue);
@@ -1275,6 +1514,8 @@ main (int argc, char *argv[])
     bool reducedPmValues = booleanValue.Get ();
     GlobalValue::GetValueByName ("enableE2FileLogging", booleanValue);
     bool enableE2FileLogging = booleanValue.Get ();
+    GlobalValue::GetValueByName ("pathGymOkMetrics", booleanValue);
+    bool pathGymOkMetrics = booleanValue.Get ();
 
     // --- CORREÇÃO: Adiciona leituras em falta ---
     GlobalValue::GetValueByName ("numberOfRaPreambles", uintegerValue);
@@ -1315,6 +1556,8 @@ main (int argc, char *argv[])
     // --- Configurações Padrão do ns-3 (mescladas e corrigidas) ---
     Config::SetDefault ("ns3::LteEnbNetDevice::UseSemaphores", BooleanValue (useSemaphores));
     Config::SetDefault ("ns3::LteEnbNetDevice::ControlFileName", StringValue(controlFilename));
+    Config::SetDefault ("ns3::LteEnbNetDevice::ScheduleControlMessages",
+                        BooleanValue (scheduleControlMessages));
     Config::SetDefault ("ns3::LteEnbNetDevice::E2Periodicity", DoubleValue (indicationPeriodicity));
     Config::SetDefault ("ns3::MmWaveEnbNetDevice::E2Periodicity", DoubleValue (indicationPeriodicity));
 
@@ -1331,6 +1574,13 @@ main (int argc, char *argv[])
     Config::SetDefault ("ns3::LteEnbNetDevice::ReducedPmValues", BooleanValue (reducedPmValues));
     Config::SetDefault ("ns3::LteEnbNetDevice::EnableE2FileLogging", BooleanValue (enableE2FileLogging));
     Config::SetDefault ("ns3::MmWaveEnbNetDevice::EnableE2FileLogging", BooleanValue (enableE2FileLogging));
+    if (pathGymOkMetrics)
+    {
+        Config::SetDefault ("ns3::RadioBearerStatsCalculator::EpochDuration",
+                            TimeValue (Seconds (indicationPeriodicity)));
+        Config::SetDefault ("ns3::MmWaveBearerStatsCalculator::EpochDuration",
+                            TimeValue (Seconds (indicationPeriodicity)));
+    }
 
     // Configuração RRC e Handover
     Config::SetDefault ("ns3::LteEnbRrc::OutageThreshold", DoubleValue (outageThreshold));
@@ -1901,6 +2151,37 @@ main (int argc, char *argv[])
     if (!lte_rrc) {
         NS_FATAL_ERROR("Não foi possível obter o LteEnbRrc.");
     }
+
+    if (pathGymOkMetrics)
+    {
+        // path-gym-ok reversible hook: keep extra exports behind one scenario flag.
+        if (!enableTraces)
+        {
+            mmwaveHelper->EnableRlcTraces ();
+            mmwaveHelper->EnablePdcpTraces ();
+        }
+
+        lteHelper->EnableRlcTraces ();
+        lteHelper->EnablePdcpTraces ();
+
+        Config::ConnectFailSafe (
+            "/NodeList/*/DeviceList/*/ComponentCarrierMapUe/*/LteUePhy/ReportCurrentCellRsrpSinr",
+            MakeCallback (&PathGymOkLteSinrTrace));
+        Config::ConnectFailSafe (
+            "/NodeList/*/DeviceList/*/LteComponentCarrierMapUe/*/LteUePhy/ReportCurrentCellRsrpSinr",
+            MakeCallback (&PathGymOkLteSinrTrace));
+        Config::ConnectFailSafe ("/NodeList/*/DeviceList/*/LteEnbRrc/NotifyMmWaveSinr",
+                                 MakeCallback (&PathGymOkMmWaveSinrTrace));
+
+        Simulator::Schedule (Seconds (0.0),
+                             &PathGymOkSampleMetrics,
+                             ltedev,
+                             mmWaveEnbDevs,
+                             outageThreshold,
+                             indicationPeriodicity,
+                             simTime);
+    }
+
     // Agenda a escrita do estado a cada `indicationPeriodicity`
     int numSteps = static_cast<int>(std::ceil(simTime / indicationPeriodicity));
     for (int step = 0; step <= numSteps; ++step) {
@@ -1910,8 +2191,77 @@ main (int argc, char *argv[])
         }
     }
 
+    // --- Configuração de Heurísticas Energy Saving ---
+    NS_LOG_INFO ("Configuring Energy Saving heuristic: type=" << (int)heuristicType);
+
+    Ptr<EnergyHeuristic> energyHeur = CreateObject<EnergyHeuristic> ();
+
+    switch (heuristicType)
+    {
+        case -1: {
+            // No heuristic - External control via semaphores/file
+            NS_LOG_INFO ("No heuristic - External RL control enabled");
+            // Células começam todas ON, controle externo decide
+            break;
+        }
+        case 0: {
+            // Always ON - All cells stay ON
+            NS_LOG_INFO ("Always ON heuristic - All cells will remain ON");
+            // Todas as células já começam ON por padrão, nada a fazer
+            break;
+        }
+        case 1: {
+            // Dynamic sleeping based on SINR (como scenario-three.cc)
+            NS_LOG_INFO ("Dynamic sleeping heuristic enabled with sinrTh=" << sinrTh);
+            NS_LOG_INFO ("BS config: bsOn=" << bsOn << " bsIdle=" << bsIdle
+                         << " bsSleep=" << bsSleep << " bsOff=" << bsOff);
+
+            // BsStatus array: [bsOn, bsIdle, bsSleep, bsOff]
+            int BsStatus[4] = {bsOn, bsIdle, bsSleep, bsOff};
+
+            // Verifica que a soma é igual ao número de células mmWave
+            if (bsOn + bsIdle + bsSleep + bsOff != nMmWaveEnbNodes)
+            {
+                NS_LOG_WARN ("Warning: bsOn+bsIdle+bsSleep+bsOff=" << (bsOn + bsIdle + bsSleep + bsOff)
+                             << " differs from nMmWaveEnbNodes=" << (int)nMmWaveEnbNodes
+                             << ". Adjusting bsOn to match.");
+                // Ajusta bsOn para completar a soma
+                BsStatus[0] = nMmWaveEnbNodes - bsIdle - bsSleep - bsOff;
+                if (BsStatus[0] < 0) BsStatus[0] = 0;
+            }
+
+            // Se bsIdle == 0, trata bsIdle como bsOn (permite células OFF ligarem)
+            if (bsIdle == 0)
+            {
+                BsStatus[1] = BsStatus[0];  // bsIdle = bsOn
+                BsStatus[0] = 0;            // bsOn = 0
+            }
+
+            for (double t = indicationPeriodicity; t <= simTime; t += indicationPeriodicity)
+            {
+                // Se bsOn==0, não precisa contar SINR dos UEs conectados
+                for (int j = 0; j < nMmWaveEnbNodes && BsStatus[0] != 0; j++)
+                {
+                    Ptr<MmWaveEnbNetDevice> mmdev = DynamicCast<MmWaveEnbNetDevice> (mmWaveEnbDevs.Get (j));
+                    Simulator::Schedule (Seconds (t), &EnergyHeuristic::CountBestUesSinr, energyHeur, sinrTh, mmdev);
+                }
+                Simulator::Schedule (Seconds (t), &EnergyHeuristic::TurnOnBsSinrPos, energyHeur,
+                                     nMmWaveEnbNodes, mmWaveEnbDevs, std::string("dynamic"), BsStatus, ltedev);
+            }
+            break;
+        }
+        default: {
+            NS_LOG_WARN ("Unknown heuristicType: " << (int)heuristicType << ". Using no heuristic.");
+            break;
+        }
+    }
+
     // Mensagem de início e execução da simulação
-    NS_LOG_UNCOND ("Hierarchical Simulation Starting. Time: " << simTime << " seconds. Control File: '" << controlFilename << "' Use Semaphores: " << useSemaphores);
+    NS_LOG_UNCOND ("Hierarchical Simulation Starting. Time: " << simTime
+                   << " seconds. Control File: '" << controlFilename
+                   << "' Use Semaphores: " << useSemaphores
+                   << " Schedule Control Messages: " << scheduleControlMessages);
+    NS_LOG_UNCOND ("Heuristic Type: " << (int)heuristicType << " (-1=RL, 0=AlwaysON, 1=Dynamic)");
     NS_LOG_UNCOND ("UAV Configuration: mode=" << (uavMobilityMode == 0 ? "static" : "mobile")
                    << ", pattern=" << (int)uavFlightPattern << ", altitude=" << uavBaseAltitude << "m"
                    << ", speed=" << uavMaxSpeed << "m/s");
@@ -1933,4 +2283,3 @@ main (int argc, char *argv[])
     NS_LOG_INFO ("Done.");
     return 0;
 }
-

@@ -45,9 +45,10 @@ Thumbs.db
 
 # Python virtual environment
 .venv/
+.venv_old/
 
 # ns-o-ran-gym
-ns-o-ran-gym/
+#ns-o-ran-gym/
 
 # SAC directories
 sac1/
@@ -55,3 +56,16 @@ sac2/
 sac3/
 sac4/
 baseline/
+
+### additional ignores for extension
+
+base_ppo/
+results/
+failed_base_ppo/
+2s_base_ppo/
+preliminary_xangai/
+old_results_simple_test/
+simple-test-ok-backups/
+path-gym-ok-backups/
+output_hierarchical_uav/
+scratch/dataset_shangai/

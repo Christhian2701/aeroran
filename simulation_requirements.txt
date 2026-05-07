@@ -1,0 +1,20 @@
+# Minimal Python requirements for the simulation workflows used in this repo.
+#
+# Notes:
+# - This file is intentionally not a dump of the full .venv.
+# - It targets the Python-driven simulation entry points such as:
+#   - run_hierarchical_sac.py
+#   - run_uav_with_sac1_env.py
+# - Pure shell/direct ns-3 runs like ./run-xangai-uav.sh and ./run-simple-test.sh
+#   do not require these Python packages by themselves.
+# - The local project modules under ./ns-o-ran-gym/src and ./sac1 are used from the repo
+#   and are therefore not listed as pip dependencies here.
+
+numpy
+pandas
+gymnasium
+typing_extensions
+posix_ipc
+sem
+stable-baselines3
+torch

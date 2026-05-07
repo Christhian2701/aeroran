@@ -1,0 +1,40 @@
+2026-02-20 08:05:45,458 - __main__ - INFO - ============================================================
+2026-02-20 08:05:45,458 - __main__ - INFO - BASELINE SIMULATIONS - HIERARCHICAL UAV SCENARIO
+2026-02-20 08:05:45,458 - __main__ - INFO - ============================================================
+2026-02-20 08:05:45,458 - __main__ - INFO - NS3 Path: /home/elioth/iwcmc_oran
+2026-02-20 08:05:45,458 - __main__ - INFO - Output Base: /home/elioth/iwcmc_oran/output_hierarchical_uav
+2026-02-20 08:05:45,458 - __main__ - INFO - Mode: both
+2026-02-20 08:05:45,458 - __main__ - INFO - Parallel: True
+2026-02-20 08:05:45,458 - __main__ - INFO - Executando 2 simulações em paralelo...
+2026-02-20 08:05:45,463 - sim_always_on - INFO - Executável: /home/elioth/iwcmc_oran/build/optimized/scratch/ns3.38.rc1-scenario-hierarchical-xangai-UAV-optimized
+2026-02-20 08:05:45,463 - sim_always_on - INFO - Comando: /home/elioth/iwcmc_oran/build/optimized/scratch/ns3.38.rc1-scenario-hierarchical-xangai-UAV-optimized --simTime=30.0 --ues=9 --RngRun=400 --configuration=1...
+2026-02-20 08:05:45,463 - sim_always_on - INFO - Criado arquivo de controle: /home/elioth/iwcmc_oran/output_hierarchical_uav/always_on_20260220_080545/hierarchical_actions.csv
+2026-02-20 08:05:45,463 - sim_dynamic - INFO - Executável: /home/elioth/iwcmc_oran/build/optimized/scratch/ns3.38.rc1-scenario-hierarchical-xangai-UAV-optimized
+2026-02-20 08:05:45,463 - sim_dynamic - INFO - Comando: /home/elioth/iwcmc_oran/build/optimized/scratch/ns3.38.rc1-scenario-hierarchical-xangai-UAV-optimized --simTime=30.0 --ues=9 --RngRun=400 --configuration=1...
+2026-02-20 08:05:45,464 - sim_dynamic - INFO - Criado arquivo de controle: /home/elioth/iwcmc_oran/output_hierarchical_uav/dynamic_20260220_080545/hierarchical_actions.csv
+2026-02-20 17:31:55,833 - sim_dynamic - INFO - Simulação concluída em 33970.37s
+2026-02-20 17:51:29,543 - sim_always_on - INFO - Simulação concluída em 35144.08s
+CSV gerado: /home/elioth/iwcmc_oran/output_hierarchical_uav/dynamic_20260220_080545/qos_hierarchical_dynamic.csv (299 linhas)
+CSV gerado: /home/elioth/iwcmc_oran/output_hierarchical_uav/always_on_20260220_080545/qos_hierarchical_always_on.csv (299 linhas)
+2026-02-20 17:51:29,597 - __main__ - INFO - 
+============================================================
+2026-02-20 17:51:29,597 - __main__ - INFO - RESULTADOS
+2026-02-20 17:51:29,597 - __main__ - INFO - ============================================================
+2026-02-20 17:51:29,597 - __main__ - INFO - 
+ALWAYS_ON:
+2026-02-20 17:51:29,597 - __main__ - INFO -   Tempo: 35144.08s
+2026-02-20 17:51:29,597 - __main__ - INFO -   CSV: /home/elioth/iwcmc_oran/output_hierarchical_uav/always_on_20260220_080545/qos_hierarchical_always_on.csv
+2026-02-20 17:51:29,597 - __main__ - INFO -   Output: /home/elioth/iwcmc_oran/output_hierarchical_uav/always_on_20260220_080545
+2026-02-20 17:51:29,597 - __main__ - INFO - 
+DYNAMIC:
+2026-02-20 17:51:29,597 - __main__ - INFO -   Tempo: 33970.37s
+2026-02-20 17:51:29,597 - __main__ - INFO -   CSV: /home/elioth/iwcmc_oran/output_hierarchical_uav/dynamic_20260220_080545/qos_hierarchical_dynamic.csv
+2026-02-20 17:51:29,597 - __main__ - INFO -   Output: /home/elioth/iwcmc_oran/output_hierarchical_uav/dynamic_20260220_080545
+2026-02-20 17:51:29,597 - __main__ - INFO - 
+============================================================
+2026-02-20 17:51:29,597 - __main__ - INFO - COMPARAÇÃO
+2026-02-20 17:51:29,597 - __main__ - INFO - ============================================================
+2026-02-20 17:51:29,601 - __main__ - INFO - ALWAYS_ON: reward médio = -1.6443
+2026-02-20 17:51:29,603 - __main__ - INFO - DYNAMIC: reward médio = -1.3950
+2026-02-20 17:51:29,603 - __main__ - INFO - 
+Execução concluída!
