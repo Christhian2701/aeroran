@@ -1,0 +1,32 @@
+# This project relies on a few external requirements, namely:
+# ns-o-ran gymnasium: https://github.com/wineslab/ns-o-ran-gym
+# ns-o-ran near real-time RIC: https://openrangym.com/tutorials/ns-o-ran
+
+-- ns-o-ran gymnasium can be cloned into the directory 
+
+-- ns-o-ran near real-time RIC
+
+--- ns-O-RAN Setup
+
+sudo apt-get update
+sudo apt-get install -y build-essential git cmake libsctp-dev autoconf automake libtool bison flex libboost-all-dev 
+sudo apt-get install g++ python3
+
+git clone https://github.com/wineslab/ns-o-ran-e2-sim oran-e2sim
+cd oran-e2sim/e2sim/
+mkdir build
+./build_e2sim.sh 3
+
+--- ns-o-ran contrib (if missing)
+
+cd ns-3-mmwave-oran/contrib
+git clone -b master https://github.com/o-ran-sc/sim-ns3-o-ran-e2 oran-interface
+
+--- install ninjamake
+sudo apt install ninja-build make
+
+
+--- configure and build ns-3-mmwave-oran
+
+./ns3 configure -G Ninja --build-profile=optimized 
+./ns3 build
