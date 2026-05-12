@@ -58,7 +58,11 @@ sac4/
 baseline/
 
 ### additional ignores for extension
-
+0_result_analysis/
+5s_base_ppo/
+5s_baseline_static/
+10s_base_ppo/
+10s_baseline_static/
 base_ppo/
 results/
 failed_base_ppo/
