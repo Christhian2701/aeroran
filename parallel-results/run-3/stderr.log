@@ -1,0 +1,19 @@
+Invalid command-line argument: --enableTraces=true
+ [Program Options] [General Arguments]
+
+Program Options:
+    --simTime:                  Simulation time in seconds [10]
+    --useSemaphores:            If true, enables semaphore-based external control [false]
+    --controlFileName:          Control payload file for hierarchical-style actions
+    --scheduleControlMessages:  If true, execute control actions at the timestamp written in the file [false]
+    --enableSimpleMobility:     If true, keep the simple deterministic UE mobility enabled [false]
+
+General Arguments:
+    --PrintGlobals:              Print the list of globals.
+    --PrintGroups:               Print the list of groups.
+    --PrintGroup=[group]:        Print all TypeIds of group.
+    --PrintTypeIds:              Print all TypeIds.
+    --PrintAttributes=[typeid]:  Print all attributes of typeid.
+    --PrintVersion:              Print the ns-3 version.
+    --PrintHelp:                 Print this help message.
+

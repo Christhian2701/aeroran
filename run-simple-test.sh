@@ -46,8 +46,11 @@ if [ -n "$EXTRA_ARGS" ]; then
 fi
 
 # Determine the build system (ns3 vs waf)
-if [ -f "./ns3" ]; then
-    RUN_CMD=(./ns3 run "$SCENARIO_ARGS")
+if [ -f "~/iwcmc_oran/ns3" ]; then
+    RUN_CMD=(~/iwcmc_oran/ns3 run "$SCENARIO_ARGS")
+elif [ -f "./ns3" ]; then
+   RUN_CMD=(./ns3 run "$SCENARIO_ARGS")
+   
 elif [ -f "./waf" ]; then
     RUN_CMD=(./waf --run "$SCENARIO_ARGS")
 else

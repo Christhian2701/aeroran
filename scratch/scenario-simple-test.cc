@@ -83,7 +83,7 @@ BsStateTrace (std::string filename, Ptr<LteEnbNetDevice> ltedev, Ptr<LteEnbRrc> 
 int
 main (int argc, char *argv[])
 {
-    double simTime = 10.0; // Very short time for fast notebook testing
+    double simTime = 2.0; 
     double indicationPeriodicity = 0.1; // 100ms
     bool harqEnabled = true;
     bool rlcAmEnabled = true;
@@ -106,6 +106,14 @@ main (int argc, char *argv[])
                  "If true, keep the simple deterministic UE mobility enabled",
                  enableSimpleMobility);
     cmd.Parse (argc, argv);
+
+    //std::cout << "### controlFilename: " << controlFilename << "### " << std::endl;
+
+    if (controlFilename == "none"){
+        std::cout << "No control file provided, running with default settings." << std::endl;
+        controlFilename = "";
+    }
+    
 
     // O-RAN E2 Logging defaults
     Config::SetDefault ("ns3::LteEnbNetDevice::UseSemaphores", BooleanValue (useSemaphores));

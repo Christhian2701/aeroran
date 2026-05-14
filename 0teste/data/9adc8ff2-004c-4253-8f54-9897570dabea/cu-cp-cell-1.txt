@@ -1,0 +1,1 @@
+timestamp,ueImsiComplete,numActiveUes,RRC.ConnMean,DRB.EstabSucc.5QI.UEID (numDrb),DRB.RelActNbr.5QI.UEID (0),eNB id,sameCellSinr,sameCellSinr 3gpp encoded

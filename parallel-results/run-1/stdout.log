@@ -1,0 +1,1 @@
+Command 'build/scratch/ns3.38.rc1-scenario-simple-test-optimized --simTime=3.0 --RngSeed=1 --RngRun=1 --enableTraces=true --pathGymOkMetrics=true' returned non-zero exit status 1.

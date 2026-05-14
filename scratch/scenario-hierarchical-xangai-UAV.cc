@@ -1485,6 +1485,13 @@ main (int argc, char *argv[])
     GlobalValue::GetValueByName ("scheduleControlMessages", booleanValue);
     bool scheduleControlMessages = booleanValue.Get ();
 
+    //std::cout << "### controlFilename: " << controlFilename << "### " << std::endl;
+
+    if (controlFilename == "none"){
+        std::cout << "No control file provided, running with default settings." << std::endl;
+        controlFilename = "";
+    }
+
     // Heuristic Type for Energy Saving
     GlobalValue::GetValueByName ("heuristicType", integerValue);
     int8_t heuristicType = integerValue.Get ();
