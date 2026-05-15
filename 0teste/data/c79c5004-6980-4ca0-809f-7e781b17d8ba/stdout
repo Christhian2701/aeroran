@@ -1,0 +1,42 @@
+
+======================================================
+--- SIMULATION PARAMETERS LOADED (SEM VERIFICATION) ---
+simTime:                 0.1 s
+RngRun:                  1
+configuration:           1 (5G FR1 3.5GHz)
+trafficModel:            3 (4-class heterogeneous mix)
+dataRateProfile:         0 (resolved 50Mbps)
+rlcAmEnabled:            true
+bufferSize:              1 MB
+basicCellId:             1
+controlFileName:         /home/christhian/iwcmc_oran/1_offline_train/ahierarchical_actions.csv
+useSemaphores:           false
+scheduleControlMessages: false
+positionAllocator:       0 (uniform disc)
+nBsNoUesAlloc:           -1
+minSpeed/maxSpeed:       2 / 4 m/s
+handoverMode:            DynamicTtt
+outageThreshold:         -5 dB
+indicationPeriodicity:   0.1 s
+numberOfRaPreambles:     40
+enableTraces:            true
+reducedPmValues:         false
+enableE2FileLogging:     true
+pathGymOkMetrics:        true
+e2lte/e2nr:              true / true
+e2du/e2cuUp/e2cuCp:      true / true / true
+e2TermIp:                127.0.0.1
+heuristicType:           -1 (external/RL control)
+sinrTh:                  73
+bsOn/bsIdle/bsSleep/bsOff: 2 / 2 / 2 / 1
+uavMobilityMode:         0 (static)
+uavFlightPattern:        0 (hovering)
+uavBaseAltitude:         100 m
+uavAltitudeVariation:    30 m
+uavMaxSpeed:             15 m/s
+uavOrbitRadius:          200 m
+uavPatrolLength:         400 m
+uavGridSize:             300 m
+enableGnbMobilityTrace:  true
+======================================================
+

@@ -1485,6 +1485,7 @@ main (int argc, char *argv[])
     GlobalValue::GetValueByName ("scheduleControlMessages", booleanValue);
     bool scheduleControlMessages = booleanValue.Get ();
 
+
     //std::cout << "### controlFilename: " << controlFilename << "### " << std::endl;
 
     if (controlFilename == "none"){
@@ -1558,6 +1559,126 @@ main (int argc, char *argv[])
     // Aplica a seed RngRun
     GlobalValue::GetValueByName("RngRun", uintegerValue);
     RngSeedManager::SetRun (uintegerValue.Get ());
+
+    GlobalValue::GetValueByName ("simTime", doubleValue);
+    double simTimeLoaded = doubleValue.Get ();
+    GlobalValue::GetValueByName ("configuration", uintegerValue);
+    uint8_t configurationLoaded = uintegerValue.Get ();
+
+    auto boolStr = [] (bool value) -> const char*
+    {
+        return value ? "true" : "false";
+    };
+
+    std::string configurationLabel;
+    switch (configurationLoaded)
+    {
+        case 0: configurationLabel = "LTE 850MHz"; break;
+        case 1: configurationLabel = "5G FR1 3.5GHz"; break;
+        case 2: configurationLabel = "5G FR2 28GHz"; break;
+        default: configurationLabel = "unknown"; break;
+    }
+
+    std::string trafficModelLabel;
+    switch (trafficModel)
+    {
+        case 0: trafficModelLabel = "full-buffer UDP"; break;
+        case 1: trafficModelLabel = "half full-buffer / half bursty"; break;
+        case 2: trafficModelLabel = "all bursty mixed TCP/UDP"; break;
+        case 3: trafficModelLabel = "4-class heterogeneous mix"; break;
+        default: trafficModelLabel = "unknown"; break;
+    }
+
+    std::string positionAllocatorLabel;
+    switch (positionAllocator)
+    {
+        case 0: positionAllocatorLabel = "uniform disc"; break;
+        case 1: positionAllocatorLabel = "around BSs"; break;
+        case 2: positionAllocatorLabel = "Shanghai urban mobility"; break;
+        default: positionAllocatorLabel = "unknown"; break;
+    }
+
+    std::string heuristicLabel;
+    switch (heuristicType)
+    {
+        case -1: heuristicLabel = "external/RL control"; break;
+        case 0: heuristicLabel = "always on"; break;
+        case 1: heuristicLabel = "dynamic sleeping"; break;
+        default: heuristicLabel = "unknown"; break;
+    }
+
+    std::string handoverModeLabel = handoverMode;
+
+    std::string resolvedDataRate;
+    switch (configurationLoaded)
+    {
+        case 0:
+            resolvedDataRate = (dataRateFromConf == 0 ? "1.5Mbps" : "4.5Mbps");
+            break;
+        case 1:
+            resolvedDataRate = (dataRateFromConf == 0 ? "50Mbps" : "150Mbps");
+            break;
+        case 2:
+            resolvedDataRate = (dataRateFromConf == 0 ? "15Mbps" : "45Mbps");
+            break;
+        default:
+            resolvedDataRate = "unknown";
+            break;
+    }
+
+    std::string uavFlightPatternLabel;
+    switch (uavFlightPattern)
+    {
+        case 0: uavFlightPatternLabel = "hovering"; break;
+        case 1: uavFlightPatternLabel = "circular"; break;
+        case 2: uavFlightPatternLabel = "patrol"; break;
+        case 3: uavFlightPatternLabel = "figure8"; break;
+        case 4: uavFlightPatternLabel = "grid"; break;
+        case 5: uavFlightPatternLabel = "altitude"; break;
+        default: uavFlightPatternLabel = "unknown"; break;
+    }
+
+    std::cout << "\n======================================================\n";
+    std::cout << "--- SIMULATION PARAMETERS LOADED (SEM VERIFICATION) ---\n";
+    std::cout << "simTime:                 " << simTimeLoaded << " s\n";
+    std::cout << "RngRun:                  " << uintegerValue.Get() << "\n";
+    std::cout << "configuration:           " << (int)configurationLoaded << " (" << configurationLabel << ")\n";
+    std::cout << "trafficModel:            " << (int)trafficModel << " (" << trafficModelLabel << ")\n";
+    std::cout << "dataRateProfile:         " << dataRateFromConf << " (resolved " << resolvedDataRate << ")\n";
+    std::cout << "rlcAmEnabled:            " << boolStr(rlcAmEnabled) << "\n";
+    std::cout << "bufferSize:              " << bufferSize << " MB\n";
+    std::cout << "basicCellId:             " << basicCellId << "\n";
+    std::cout << "controlFileName:         " << controlFilename << "\n";
+    std::cout << "useSemaphores:           " << boolStr(useSemaphores) << "\n";
+    std::cout << "scheduleControlMessages: " << boolStr(scheduleControlMessages) << "\n";
+    std::cout << "positionAllocator:       " << (int)positionAllocator << " (" << positionAllocatorLabel << ")\n";
+    std::cout << "nBsNoUesAlloc:           " << (int)nBsNoUesAlloc << "\n";
+    std::cout << "minSpeed/maxSpeed:       " << minSpeed << " / " << maxSpeed << " m/s\n";
+    std::cout << "handoverMode:            " << handoverModeLabel << "\n";
+    std::cout << "outageThreshold:         " << outageThreshold << " dB\n";
+    std::cout << "indicationPeriodicity:   " << indicationPeriodicity << " s\n";
+    std::cout << "numberOfRaPreambles:     " << (int)numberOfRaPreambles << "\n";
+    std::cout << "enableTraces:            " << boolStr(enableTraces) << "\n";
+    std::cout << "reducedPmValues:         " << boolStr(reducedPmValues) << "\n";
+    std::cout << "enableE2FileLogging:     " << boolStr(enableE2FileLogging) << "\n";
+    std::cout << "pathGymOkMetrics:        " << boolStr(pathGymOkMetrics) << "\n";
+    std::cout << "e2lte/e2nr:              " << boolStr(e2lteEnabled) << " / " << boolStr(e2nrEnabled) << "\n";
+    std::cout << "e2du/e2cuUp/e2cuCp:      " << boolStr(e2du) << " / " << boolStr(e2cuUp) << " / " << boolStr(e2cuCp) << "\n";
+    std::cout << "e2TermIp:                " << e2TermIp << "\n";
+    std::cout << "heuristicType:           " << (int)heuristicType << " (" << heuristicLabel << ")\n";
+    std::cout << "sinrTh:                  " << sinrTh << "\n";
+    std::cout << "bsOn/bsIdle/bsSleep/bsOff: "
+              << bsOn << " / " << bsIdle << " / " << bsSleep << " / " << bsOff << "\n";
+    std::cout << "uavMobilityMode:         " << (int)uavMobilityMode << " (" << (uavMobilityMode == 0 ? "static" : "mobile") << ")\n";
+    std::cout << "uavFlightPattern:        " << (int)uavFlightPattern << " (" << uavFlightPatternLabel << ")\n";
+    std::cout << "uavBaseAltitude:         " << uavBaseAltitude << " m\n";
+    std::cout << "uavAltitudeVariation:    " << uavAltitudeVariation << " m\n";
+    std::cout << "uavMaxSpeed:             " << uavMaxSpeed << " m/s\n";
+    std::cout << "uavOrbitRadius:          " << uavOrbitRadius << " m\n";
+    std::cout << "uavPatrolLength:         " << uavPatrolLength << " m\n";
+    std::cout << "uavGridSize:             " << uavGridSize << " m\n";
+    std::cout << "enableGnbMobilityTrace:  " << boolStr(enableGnbMobilityTrace) << "\n";
+    std::cout << "======================================================\n\n";
 
 
     // --- Configurações Padrão do ns-3 (mescladas e corrigidas) ---
