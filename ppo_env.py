@@ -56,6 +56,7 @@ class UavEnergySavingPpoEnv(HierarchicalEnv):
             scenario_name="scenario-hierarchical-xangai-UAV",
         )
 
+        self._hierarchical_observation_space = self.observation_space
         self.action_space = spaces.MultiBinary(self.n_gnbs)
         self.observation_space = spaces.Box(
             low=-np.inf,
@@ -65,7 +66,12 @@ class UavEnergySavingPpoEnv(HierarchicalEnv):
         )
 
     def _get_obs(self):
-        obs = super()._get_obs()
+        original_space = self.observation_space
+        self.observation_space = self._hierarchical_observation_space
+        try:
+            obs = super()._get_obs()
+        finally:
+            self.observation_space = original_space
         es_obs = obs.get("es_obs")
         if es_obs is None:
             es_obs = np.zeros(self.observation_space.shape, dtype=np.float32)

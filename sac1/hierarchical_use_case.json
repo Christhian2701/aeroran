@@ -1,0 +1,16 @@
+{
+  "simTime":[30.0],
+  "ues":[9],
+  "RngRun":[400],
+  "configuration":[0],
+  "trafficModel":[3],
+  "numberOfRaPreambles":[64],
+  "reducedPmValues":[0],
+  "outageThreshold":[2.0],
+  "handoverMode":["DynamicTtt"],
+  "indicationPeriodicity":[0.10],
+  "controlFileName":["hierarchical_actions.csv"],
+  "useSemaphores": [1],
+  "positionAllocator": [1],
+  "nBsNoUesAlloc": [0]
+}

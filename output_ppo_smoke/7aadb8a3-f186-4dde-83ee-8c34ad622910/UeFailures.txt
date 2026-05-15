@@ -1,0 +1,3 @@
+simtime,UeId,SourceCellId,TargetCellId
+0.0766001,58,2,5
+0.1038,41,3,7

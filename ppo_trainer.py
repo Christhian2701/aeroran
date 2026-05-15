@@ -17,6 +17,7 @@ Unlike the SAC scripts in this repository, this trainer is ES-only:
 """
 
 import argparse
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -36,6 +37,7 @@ from ppo_env import UavEnergySavingPpoEnv
 DEFAULT_OUTPUT_FOLDER = str(SCRIPT_DIR / "output_ppo_es_uav")
 DEFAULT_MODEL_PREFIX = str(SCRIPT_DIR / "ppo_es_uav_model")
 DEFAULT_QOS_CSV = "qos_hierarchical_metrics_PPO_ES_UAV.csv"
+DEFAULT_TENSORBOARD_DIR = str(SCRIPT_DIR / "ppo_es_uav_tensorboard")
 
 
 def load_json_config(config_path: str) -> dict:
@@ -173,6 +175,11 @@ def main():
         raise FileNotFoundError(f"ns3_path not found: {args.ns3_path}")
 
     os.makedirs(args.output_folder, exist_ok=True)
+    tensorboard_available = importlib.util.find_spec("tensorboard") is not None
+    tensorboard_log = DEFAULT_TENSORBOARD_DIR if tensorboard_available else None
+
+    if not tensorboard_available:
+        print("TensorBoard not installed; continuing without tensorboard logging.")
 
     if args.config:
         scenario_configuration = load_json_config(args.config)
@@ -207,7 +214,7 @@ def main():
             "MlpPolicy",
             env,
             verbose=1,
-            tensorboard_log=str(SCRIPT_DIR / "ppo_es_uav_tensorboard"),
+            tensorboard_log=tensorboard_log,
             learning_rate=args.learning_rate,
             n_steps=args.n_steps,
             batch_size=args.batch_size,
@@ -235,7 +242,7 @@ def main():
         callback_on_new_best=stop_callback,
         eval_freq=args.eval_freq,
         n_eval_episodes=1,
-        log_path=str(SCRIPT_DIR / "ppo_es_uav_tensorboard"),
+        log_path=DEFAULT_TENSORBOARD_DIR,
         best_model_save_path=f"{args.save_path}_best_model",
         deterministic=True,
         render=False,
