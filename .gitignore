@@ -61,6 +61,8 @@ baseline/
 
 ### additional ignores for extension
 0_result_analysis/
+base_ppo/
+base_ppo2/
 5s_base_ppo/
 5s_baseline_static/
 10s_base_ppo/
@@ -76,6 +78,8 @@ path-gym-ok-backups/
 output_hierarchical_uav/
 scratch/dataset_shangai/
 *_best_model/
+output_ppo_cpu*
+1errortest/
 
 new_*
 0test*
