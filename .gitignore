@@ -4,6 +4,9 @@ cmake-build-*/
 cmake-cache/
 xcode/
 
+__pycache__/
+*.pyc
+
 # Compiled object files
 *.o
 *.ko
@@ -48,7 +51,7 @@ Thumbs.db
 .venv_old/
 
 # ns-o-ran-gym
-#ns-o-ran-gym/
+ns-o-ran-gym/
 
 # SAC directories
 sac2/
@@ -72,3 +75,10 @@ simple-test-ok-backups/
 path-gym-ok-backups/
 output_hierarchical_uav/
 scratch/dataset_shangai/
+*_best_model/
+
+new_*
+0test*
+*.gz
+*.zip
+z

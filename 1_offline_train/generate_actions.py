@@ -2,8 +2,8 @@ import csv
 import random
 
 # Configuration
-output_filename = "ahierarchical_actions.csv"
-duration_ms = 300  # Total duration to generate actions for (1 second)
+output_filename = "shierarchical_actions.csv"
+duration_ms = 30000  # Total duration to generate actions for (1 second)
 interval_ms = 100   # 100ms E2 periodicity
 cells = [2, 3, 4, 5, 6, 7, 8]      # The IDs of our mmWave gNBs in the simple scenario
 

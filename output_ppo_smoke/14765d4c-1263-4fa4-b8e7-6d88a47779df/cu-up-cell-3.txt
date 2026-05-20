@@ -1,0 +1,11 @@
+timestamp,ueImsiComplete,DRB.PdcpSduDelayDl(cellAverageLatency),m_pDCPBytesUL(0),m_pDCPBytesDL(cellDlTxVolume),DRB.PdcpSduVolumeDl_Filter.UEID(txBytes),Tot.PdcpSduNbrDl.UEID(txDlPackets),DRB.PdcpSduBitRateDl.UEID(pdcpThroughput),DRB.PdcpSduDelayDl.UEID(pdcpLatency),txPdcpPduLteRlc,txPdcpPduBytesLteRlc,QosFlow.PdcpPduVolumeDL_Filter.UEID(txPdcpPduBytesNrRlc),DRB.PdcpPduNbrDl.Qos.UEID (txPdcpPduNrRlc)
+1778858427883,00018,,,,,,,,,,,,,
+1778858427883,00029,,,,,,,,,,,,,
+1778858427883,00030,,,,,,,,,,,,,
+1778858427883,00040,,,,,,,,,,,,,
+1778858427883,00041,,,,,,,,,,,,,
+1778858427883,00049,,,,,,,,,,,,,
+1778858427883,00051,,,,,,,,,,,,,
+1778858427883,00053,,,,,,,,,,,,,
+1778858427883,00063,,,,,,,,,,,,,
+1778858427883,00025,,,,,,,,,,,,,

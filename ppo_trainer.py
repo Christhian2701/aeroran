@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ppo_trainer.py
+ppo_trainer.py novo
 
 Online PPO trainer for the energy-saving use case on top of the
 scenario-hierarchical-xangai-UAV ns-3 simulation.
@@ -74,7 +74,9 @@ def create_default_scenario_config(args: argparse.Namespace) -> dict:
 
 def make_env(rank: int, seed: int, env_kwargs: dict):
     def _init():
-        return UavEnergySavingPpoEnv(**env_kwargs)
+        local_env_kwargs = dict(env_kwargs)
+        local_env_kwargs["randomization_seed"] = seed + rank
+        return UavEnergySavingPpoEnv(**local_env_kwargs)
 
     set_random_seed(seed)
     return _init

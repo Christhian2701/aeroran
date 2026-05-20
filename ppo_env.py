@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ppo_env.py
+ppo_env.py novo
 
 Online PPO environment for the ES-only UAV use case.
 
@@ -44,6 +44,7 @@ class UavEnergySavingPpoEnv(HierarchicalEnv):
         output_folder: str,
         optimized: bool,
         verbose: bool = False,
+        randomization_seed: int = 0,
     ):
         super().__init__(
             ns3_path=ns3_path,
@@ -56,6 +57,10 @@ class UavEnergySavingPpoEnv(HierarchicalEnv):
             scenario_name="scenario-hierarchical-xangai-UAV",
         )
 
+        self._base_scenario_configuration = dict(self.scenario_configuration)
+        self._base_rng_run = int(self.scenario_configuration.get("RngRun", 400))
+        self._episode_index = 0
+        self._randomization_rng = np.random.default_rng(randomization_seed)
         self._hierarchical_observation_space = self.observation_space
         self.action_space = spaces.MultiBinary(self.n_gnbs)
         self.observation_space = spaces.Box(
@@ -64,6 +69,43 @@ class UavEnergySavingPpoEnv(HierarchicalEnv):
             shape=(len(self.es_columns_state),),
             dtype=np.float32,
         )
+
+    def _randomize_episode_configuration(self):
+        """
+        Apply per-episode variation before ns-3 is launched.
+
+        Current episode randomization:
+        - RngRun: increment each reset
+        - uavFlightPattern: sampled from mobile patterns 1..5
+        - uavMaxSpeed: sampled uniformly in [8.0, 20.0] m/s
+        """
+        self.scenario_configuration.update(self._base_scenario_configuration)
+
+        self._episode_index += 1
+        self.scenario_configuration["RngRun"] = self._base_rng_run + self._episode_index
+
+        if int(self.scenario_configuration.get("uavMobilityMode", 0)) == 1:
+            self.scenario_configuration["uavFlightPattern"] = int(
+                self._randomization_rng.choice([1, 2, 3, 4, 5])
+            )
+            self.scenario_configuration["uavMaxSpeed"] = round(
+                float(self._randomization_rng.uniform(8.0, 20.0)), 2
+            )
+
+        if self.logger:
+            self.logger.info(
+                "Episode %s randomized config: RngRun=%s, uavFlightPattern=%s, uavMaxSpeed=%s",
+                self._episode_index,
+                self.scenario_configuration.get("RngRun"),
+                self.scenario_configuration.get("uavFlightPattern"),
+                self.scenario_configuration.get("uavMaxSpeed"),
+            )
+
+    def reset(self, *, seed=None, options=None):
+        if seed is not None:
+            self._randomization_rng = np.random.default_rng(seed)
+        self._randomize_episode_configuration()
+        return super().reset(seed=seed, options=options)
 
     def _get_obs(self):
         original_space = self.observation_space

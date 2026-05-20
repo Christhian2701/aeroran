@@ -2,21 +2,26 @@ import sem
 
 # primeira tentativa de campanha, usando cenário simples
 
-ns_path = '/home/christhian/iwcmc_oran'
+ns_path = '/root/projects/iwcmc_oran'
 #script_path = '/home/christhian/iwcmc_oran/scratch/scenario-simple-test.cc'
 #script_path = 'scenario-simple-test'
 # /home/christhian/iwcmc_oran/scratch/scenario-hierarchical-xangai-UAV.cc
 
 script_path = 'scenario-hierarchical-xangai-UAV'
 
-campaign_path = '/home/christhian/iwcmc_oran/0teste'
+campaign_path = '/root/projects/iwcmc_oran/new_run1'
 
 
 control_paths =[
-    "/home/christhian/iwcmc_oran/1_offline_train/ahierarchical_actions.csv",
-    "/home/christhian/iwcmc_oran/1_offline_train/bhierarchical_actions.csv",
-    "/home/christhian/iwcmc_oran/1_offline_train/chierarchical_actions.csv",
-    "/home/christhian/iwcmc_oran/1_offline_train/dhierarchical_actions.csv",
+   #f"{ns_path}/1_offline_train/ehierarchical_actions.csv",
+    f"{ns_path}/1_offline_train/ahierarchical_actions.csv",
+    f"{ns_path}/1_offline_train/bhierarchical_actions.csv",
+    f"{ns_path}/1_offline_train/chierarchical_actions.csv",
+    f"{ns_path}/1_offline_train/dhierarchical_actions.csv",
+    f"{ns_path}/1_offline_train/ehierarchical_actions.csv",
+    f"{ns_path}/1_offline_train/fhierarchical_actions.csv",
+    f"{ns_path}/1_offline_train/ghierarchical_actions.csv",
+    f"{ns_path}/1_offline_train/hhierarchical_actions.csv",
 ]
 
 
@@ -24,7 +29,7 @@ campaign = sem.CampaignManager.new(ns_path, script_path, campaign_path, overwrit
 
 params = {
     'simTime': '30.0',
-    'RngRun': list(range(2)),
+    'RngRun': list(range(1)),
     'controlFileName': control_paths,
     'uavMobilityMode': 1,
     'uavFlightPattern': 1,
