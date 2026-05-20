@@ -2,14 +2,12 @@ import sem
 
 # primeira tentativa de campanha, usando cenário simples
 
-ns_path = '/root/projects/iwcmc_oran'
-#script_path = '/home/christhian/iwcmc_oran/scratch/scenario-simple-test.cc'
+ns_path = '.'
 #script_path = 'scenario-simple-test'
-# /home/christhian/iwcmc_oran/scratch/scenario-hierarchical-xangai-UAV.cc
 
 script_path = 'scenario-hierarchical-xangai-UAV'
 
-campaign_path = '/root/projects/iwcmc_oran/new_run1'
+campaign_path = './new_run1'
 
 
 control_paths =[

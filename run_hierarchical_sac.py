@@ -30,8 +30,8 @@ import pandas as pd
 
 # Configuração de paths
 SCRIPT_DIR = Path(__file__).parent.resolve()
-ENV_FILE = SCRIPT_DIR / "hierarchical.env"
-LEGACY_REPO_ROOT = Path("/home/elioth/iwcmc_oran")
+REPO_ROOT = Path.cwd().resolve()
+ENV_FILE = REPO_ROOT / "hierarchical.env"
 PATH_KEYS = {
     "NS3_PATH",
     "NSORAN_GYM_PATH",
@@ -44,19 +44,15 @@ PATH_KEYS = {
 
 
 def normalize_env_value(key: str, value: str, env_dir: Path) -> str:
-    """Resolves path settings against this repo and remaps legacy copied paths."""
+    """Resolves path settings against the current ns-3 repo root."""
     if key not in PATH_KEYS:
         return value
 
     path_value = Path(os.path.expanduser(value))
     if path_value.is_absolute():
-        try:
-            relative_path = path_value.relative_to(LEGACY_REPO_ROOT)
-        except ValueError:
-            return str(path_value)
-        return str((SCRIPT_DIR / relative_path).resolve())
+        return str(path_value)
 
-    return str((env_dir / path_value).resolve())
+    return str((REPO_ROOT / path_value).resolve())
 
 
 def load_env_file(env_path: Path) -> Dict[str, str]:
